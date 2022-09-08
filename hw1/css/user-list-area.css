@@ -1,4 +1,4 @@
-.meet__user-list-area {
+.user-list-area {
     /* background-color: rgb(100, 100, 100); */
 
     grid-column-start: 9;
@@ -12,20 +12,20 @@
     justify-content: center;
 }
 
-.meet__user-list {
+.user-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.meet__user-list > .meet__user {
-    width: 10vw;
+.user-list > .user {
+    width: 48%;
     height: 20vh;
     background-color: rgba(100, 100, 100, 0.7);
 
-    border-radius: min(1vw, 1vh);
-    margin: min(0.5vw, 0.5vh);
+    border-radius: 1vmin;
+    margin: 1%;
 
     flex-grow: 0.3;
 }
