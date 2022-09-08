@@ -10,6 +10,6 @@
     display: grid;
     grid-gap: min(1.5vw, 1.5vh);
     grid-template-columns: 0% repeat(10, 0.1fr) 0%;
-    grid-template-rows: 0% repeat(10, 0.1fr) 0%;
+    grid-template-rows: 0% 0.94fr 0.06fr 0%;
 }
 
