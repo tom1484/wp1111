@@ -43,3 +43,43 @@
 .info-bar .info-button:hover {
     background-color: rgb(40, 41, 44);
 }
+
+.info-bar .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(62, 63, 67);
+
+    transition: 0.3s ease;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+
+}
+
+.info-bar .info-button:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.info-bar .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
