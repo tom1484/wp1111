@@ -11,13 +11,13 @@
     align-items: center;
 }
 
-.action-button-checkbox {
+.action-bar .action-button-checkbox {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.action-button {
+.action-bar .action-button {
     --height: 4.2vmin;
     --button-space: 1.4vmin;
 
@@ -34,24 +34,23 @@
     position: relative;
 }
 
-.action-button:not([default-red]) {
+.action-bar .action-button:not([default-red]) {
     background-color: rgb(62, 63, 67);
 }
 
-.action-button:not([default-red]):hover {
+.action-bar .action-button:not([default-red]):hover {
     background-color: rgb(67, 70, 73);
 }
 
-.action-button[default-red] {
+.action-bar .action-button[default-red] {
     background-color: rgb(214, 79, 63);
 }
 
-.action-button:has(.action-button-checkbox:checked) {
+.action-bar .action-button:has(.action-button-checkbox:checked) {
     background-color: rgb(214, 79, 63);
-    /* transition: 0s; */
 }
 
-.action-button-img {
+.action-bar .action-button-img {
     pointer-events:none;
     user-select: none;
 
@@ -66,17 +65,17 @@
     content: var(--img-unchecked);
 }
 
-.action-button-checkbox ~ .action-button-img:after {
+.action-bar .action-button-checkbox ~ .action-button-img:after {
     visibility: hidden;
     content: var(--img-checked) var(--img-unchecked);
 }
 
-.action-button-img:only-child:after {
+.action-bar .action-button-img:only-child:after {
     visibility: hidden;
     content: var(--img-checked);
 }
 
-.action-button-checkbox:checked ~ .action-button-img {
+.action-bar .action-button-checkbox:checked ~ .action-button-img {
     content: var(--img-checked);
 }
 

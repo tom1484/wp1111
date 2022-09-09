@@ -1,8 +1,45 @@
 .info-bar {
-    background-color: rgb(100, 100, 100);
-
     grid-column-start: 10;
     grid-column-end: 12;
     grid-row-start: 3;
     grid-row-end: 4;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: end;
+    align-items: center;
+}
+
+.info-bar .info-button {
+    --height: 5vmin;
+
+    height: var(--height);
+    width: var(--height);
+
+    border-radius: calc(var(--height) / 2);
+    border: 0;
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.info-bar .info-button-img {
+    pointer-events:none;
+    user-select: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(height);
+    height: 60%;
+
+    transform: translate(-50%, -50%);
+
+    content: var(--img-unchecked);
+}
+
+.info-bar .info-button:hover {
+    background-color: rgb(40, 41, 44);
 }

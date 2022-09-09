@@ -37,7 +37,7 @@
 }
 
 .user-list .user-tooltip {
-    --height: 5.5vmin;
+    --height: 5vmin;
     height: var(--height);
     width: calc(var(--height) * 3);
     background-color: black;
@@ -67,7 +67,7 @@
 }
 
 .user-list .tooltip-option {
-    --height: 5.5vmin;
+    --height: 5vmin;
     height: var(--height);
     width: var(--height);
     background-color: rgba(100, 100, 100, 0);
