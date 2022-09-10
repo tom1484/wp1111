@@ -1,0 +1,596 @@
+/* ==============================[ root.css ]================================ */
+
+.root {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    background-color: rgb(32, 33, 36);
+
+    display: grid;
+    grid-gap: 1.5vmin;
+    grid-template-columns: 0% repeat(10, 0.1fr) 0%;
+    grid-template-rows: 0% 0.94fr 0.06fr 0%;
+}
+
+/* ==============================[ user-pin-area.css ]================================ */
+
+.user-pin-area {
+    grid-column-start: 2;
+    grid-column-end: 9;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.user-pin-area .user {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+
+    border-radius: 3vmin;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.user-pin-area .user-img {
+    --width: 20vmin;
+    width: var(--width);
+    height: var(--width);
+    user-select: none;
+
+    border-radius: 50%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.user-pin-area .user-tooltip {
+    --height: 5.5vmin;
+    height: var(--height);
+    width: calc(var(--height) * 3);
+    background-color: black;
+    opacity: 0;
+    transition: 0.4s ease;
+    user-select: none;
+
+    border-radius: var(--height);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.user-pin-area .user:hover > .user-tooltip:not(:hover) {
+    opacity: 0.3;
+}
+
+.user-pin-area .user-tooltip:hover {
+    opacity: 0.6;
+}
+
+.user-pin-area .tooltip-option {
+    --height: 5.5vmin;
+    height: var(--height);
+    width: var(--height);
+    background-color: rgba(100, 100, 100, 0);
+    transition: 0.2s ease;
+
+    cursor: pointer;
+
+    border-radius: var(--height);
+    position: relative;
+}
+
+.user-pin-area .tooltip-option-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-pin-area .tooltip-option:hover {
+    background-color: rgb(60, 64, 67);
+}
+
+.user-pin-area .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: black;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+}
+
+.user-pin-area .tooltip-option:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.user-pin-area .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
+
+.user-pin-area .user-info {
+    width: fit-content;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user-pin-area .pin-state {
+    --height: 3vmin;
+    height: var(--height);
+    width: var(--height);
+    user-select: none;
+
+    margin-top: 0.5vmin;
+    margin-left: 1.5vmin;
+    margin-right: 1.5vmin;
+
+    border-radius: var(--height);
+}
+
+.user-pin-area .user-name {
+    width: fit-content;
+
+    margin: 0;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.5vmin;
+    color: white;
+}
+
+.user-pin-area .mic-state {
+    --height: 2.4vmin;
+    height: var(--height);
+    width: var(--height);
+    user-select: none;
+
+    margin-right: 1.5vmin;
+    margin-top: 1.5vmin;
+    padding: 0.2vmin;
+    border-radius: var(--height);
+
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+/* ==============================[ user-list-area.css ]================================ */
+
+.user-list-area {
+    grid-column-start: 9;
+    grid-column-end: 12;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.user-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.user-list .user {
+    width: 48%;
+    height: 20vh;
+    background-color: rgb(74, 78, 81);
+
+    border-radius: 1vmin;
+    margin: 1%;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: start;
+    flex-grow: 0.3;
+}
+
+.user-list .user-img {
+    --width: 10vmin;
+    width: var(--width);
+    height: var(--width);
+
+    user-select: none;
+
+    border-radius: 50%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.user-list .user-name {
+    width: fit-content;
+
+    margin: 0;
+    padding-left: 1.5vmin;
+    padding-bottom: 1.5vmin;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.5vmin;
+    color: white;
+}
+
+.user-list .mic-state {
+    --height: 2.4vmin;
+    height: var(--height);
+    width: var(--height);
+    background-color: rgb(54, 55, 59);
+    user-select: none;
+
+    margin-right: 1.5vmin;
+    margin-top: 1.5vmin;
+    padding: 0.2vmin;
+    border-radius: var(--height);
+
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+.user-list .user-tooltip {
+    --height: 5vmin;
+    height: var(--height);
+    width: calc(var(--height) * 3);
+    background-color: black;
+    opacity: 0;
+    transition: 0.4s ease;
+    user-select: none;
+
+    border-radius: var(--height);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.user-list .user:hover > .user-tooltip:not(:hover) {
+    opacity: 0.3;
+}
+
+.user-list .user-tooltip:hover {
+    opacity: 0.6;
+}
+
+.user-list .tooltip-option {
+    --height: 5vmin;
+    height: var(--height);
+    width: var(--height);
+    background-color: rgba(100, 100, 100, 0);
+    transition: 0.2s ease;
+
+    cursor: pointer;
+
+    border-radius: var(--height);
+    position: relative;
+}
+
+.user-list .tooltip-option-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-list .tooltip-option:hover {
+    background-color: rgb(60, 64, 67);
+}
+
+.user-list .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: black;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+}
+
+.user-list .tooltip-option:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.user-list .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
+
+/* ==============================[ footer.css ]================================ */
+
+.footer {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    align-items: center;
+}
+
+.footer  .footer-text {
+    width: fit-content;
+
+    margin: 0;
+    padding-left: 1.5vmin;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.7vmin;
+    color: white;
+}
+
+/* ==============================[ action-bar.css ]================================ */
+
+.action-bar {
+    grid-column-start: 4;
+    grid-column-end: 10;
+    grid-row-start: 3;
+    grid-row-end: 4;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-bar .action-button-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.action-bar .action-button {
+    --height: 4.2vmin;
+    --button-space: 1.4vmin;
+
+    height: var(--height);
+    width: calc(var(--edge-ratio) * var(--height));
+
+    border-radius: calc(var(--height) / 2);
+    border: 0;
+    margin-left: calc(var(--button-space) / 2);
+    margin-right: calc(var(--button-space) / 2);
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.action-bar .action-button:not([default-red]) {
+    background-color: rgb(62, 63, 67);
+}
+
+.action-bar .action-button:not([default-red]):hover {
+    background-color: rgb(67, 70, 73);
+}
+
+.action-bar .action-button[default-red] {
+    background-color: rgb(214, 79, 63);
+}
+
+.action-bar .action-button:has(.action-button-checkbox:checked) {
+    background-color: rgb(214, 79, 63);
+}
+
+.action-bar .action-button-img {
+    pointer-events:none;
+    user-select: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(height);
+    height: 60%;
+
+    transform: translate(-50%, -50%);
+
+    content: var(--img-unchecked);
+}
+
+.action-bar .action-button-checkbox ~ .action-button-img:after {
+    visibility: hidden;
+    content: var(--img-checked) var(--img-unchecked);
+}
+
+.action-bar .action-button-checkbox:checked ~ .action-button-img {
+    content: var(--img-checked);
+}
+
+.action-bar .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(62, 63, 67);
+
+    transition: 0.3s ease;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+
+}
+
+.action-bar .action-button:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.action-bar .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
+
+/* ==============================[ info-bar.css ]================================ */
+
+.info-bar {
+    grid-column-start: 10;
+    grid-column-end: 12;
+    grid-row-start: 3;
+    grid-row-end: 4;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: end;
+    align-items: center;
+}
+
+.info-bar .info-button {
+    --height: 5vmin;
+
+    height: var(--height);
+    width: var(--height);
+
+    border-radius: calc(var(--height) / 2);
+    border: 0;
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.info-bar .info-button-img {
+    pointer-events:none;
+    user-select: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(height);
+    height: 60%;
+
+    transform: translate(-50%, -50%);
+
+    content: var(--img-unchecked);
+}
+
+.info-bar .info-button:hover {
+    background-color: rgb(40, 41, 44);
+}
+
+.info-bar .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(62, 63, 67);
+
+    transition: 0.3s ease;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+
+}
+
+.info-bar .info-button:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.info-bar .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
