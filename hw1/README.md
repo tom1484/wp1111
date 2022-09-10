@@ -34,3 +34,21 @@ Also, I set `flex-grow: 0.3;` to allow the single block in the last row to stret
 Aside from the list, the user blocks are the same with that in **user-pin-are**.
 
 ## footer.css
+
+This area is for displaying time and meeting room name.
+
+## action-bar.css
+
+This part consists of action buttons such as turning on/off microphone, turning on/off camera, raising hand and so on. <br>
+
+The buttons having two states contains checkbox inside so that the clicks can be memorized. <br>
+To prevent image glitching when changing state, I added a hidden element by selector `:after` to preload button svg images before clicking.
+
+## info-bar.css
+
+Finally, this part has buttons for more information of the meeting, which are implemented with similar methods introduced previously.
+
+
+
+
+
