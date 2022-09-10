@@ -15,6 +15,11 @@
     grid-template-rows: 0% 0.94fr 0.06fr 0%;
 }
 
+@font-face {
+    font-family: 'Noto Sans TC';
+    src: url("./NotoSansTC-Light.otf");
+}
+
 /* ==============================[ user-pin-area.css ]================================ */
 
 .user-pin-area {
