@@ -183,6 +183,81 @@
     right: 0%;
 }
 
+.user-pin-area .delete-user {
+    --height: 2.4vmin;
+    height: var(--height);
+    width: var(--height);
+    background-color: rgb(54, 55, 59);
+    cursor: pointer;
+
+    margin-left: 1.5vmin;
+    margin-top: 1.5vmin;
+    padding: 0.2vmin;
+    border-radius: var(--height);
+
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
+.user-pin-area .user[is-self="true"] .delete-user {
+    display: none;
+    visibility: hidden;
+}
+
+/* .user-pin-area .delete-user:hover { */
+/*     background-color: rgb(67, 70, 73); */
+/* } */
+
+.user-pin-area .delete-user-img {
+    width: 140%;
+    height: 140%;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.user-pin-area .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(62, 63, 67);
+
+    transition: 0.3s ease;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+
+}
+
+.user-pin-area .delete-user:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.user-pin-area .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
 
 
 
