@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta text="meta text">
+        <!-- <link rel="stylesheet" type="text/css" href="./css/styles.css"> -->
+        <link rel="stylesheet" type="text/css" href="./css/user-pin-area.css">
+        <link rel="stylesheet" type="text/css" href="./css/user-list-area.css">
+        <link rel="stylesheet" type="text/css" href="./css/footer.css">
+        <link rel="stylesheet" type="text/css" href="./css/action-bar.css">
+        <link rel="stylesheet" type="text/css" href="./css/info-bar.css">
+        <link rel="stylesheet" type="text/css" href="./css/root.css">
+    </head>
+
+    <body>
+        <script src="main.js"></script>
+        <div class="root">
+            <div class="user-pin-area" enabled="false">
+                <!-- <div class="user"> -->
+                <!--     <img class="user-img" src="./css/img/user/user-pin.png"> -->
+                <!--     <div class="user-tooltip"> -->
+                <!--         <div class="tooltip-option"> -->
+                <!--             <img class="tooltip-option-img" src="./css/img/user/pin.svg"> -->
+                <!--             <div class="button-tooltip"> -->
+                <!--                 <p class="button-tooltip-text">Unpin</p> -->
+                <!--             </div> -->
+                <!--         </div> -->
+                <!--         <div class="tooltip-option"> -->
+                <!--             <img class="tooltip-option" src="./css/img/user/block.svg"> -->
+                <!--             <div class="button-tooltip"> -->
+                <!--                 <p class="button-tooltip-text">Block Mode</p> -->
+                <!--             </div> -->
+                <!--         </div> -->
+                <!--         <div class="tooltip-option"> -->
+                <!--             <img class="tooltip-option" src="./css/img/user/minimize.svg"> -->
+                <!--             <div class="button-tooltip"> -->
+                <!--                 <p class="button-tooltip-text">Minimize</p> -->
+                <!--             </div> -->
+                <!--         </div> -->
+                <!--     </div> -->
+                <!--     <img class="mic-state" src="./css/img/user/mic-mute.svg"> -->
+                <!--     <div class="user-info"> -->
+                <!--         <img class="pin-state" src="./css/img/user/pin-state.svg"> -->
+                <!--         <p class="user-name">你</p> -->
+                <!--     </div> -->
+                <!-- </div> -->
+            </div>
+            <div class="user-list-area">
+                <div class="user-list">
+                    <div class="user" id="template-user">
+                        <img class="user-img" src="">
+                        <div class="user-tooltip">
+                            <div class="tooltip-option" id="pin-button">
+                                <img class="tooltip-option-img" src="./css/img/user/pin.svg">
+                                <div class="button-tooltip">
+                                    <p class="button-tooltip-text">Pin</p>
+                                </div>
+                            </div>
+                            <div class="tooltip-option" id="block-button">
+                                <img class="tooltip-option-img" src="./css/img/user/block.svg">
+                                <div class="button-tooltip">
+                                    <p class="button-tooltip-text">Block Mode</p>
+                                </div>
+                            </div>
+                            <div class="tooltip-option" id="minimize-button">
+                                <img class="tooltip-option-img" src="./css/img/user/minimize.svg">
+                                <div class="button-tooltip">
+                                    <p class="button-tooltip-text">Minimize</p>
+                                </div>
+                            </div>
+                        </div>
+                        <img class="mic-state" src="./css/img/user/mic-mute.svg">
+                        <div class="user-info">
+                            <img class="pin-state" src="./css/img/user/pin-state.svg">
+                            <p class="user-name">Template</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="footer-text">晚上 9:42&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;hrk-ckvn-zeh</p>
+            </div>
+            <div class="action-bar">
+                <!-- Microphone Button -->
+                <label class="action-button" style="--edge-ratio: 1;">
+                    <input class="action-button-checkbox" type="checkbox">
+                    <label class="action-button-img" style="
+                        --img-checked: url('./img/action/mic-mute.svg');
+                        --img-unchecked: url('./img/action/mic.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Microphone</p>
+                    </div>
+                </label>
+                <!-- Camera Button -->
+                <label class="action-button" style="--edge-ratio: 1;">
+                    <input class="action-button-checkbox" type="checkbox">
+                    <label class="action-button-img" style="
+                        --img-checked: url('./img/action/cam-off.svg');
+                        --img-unchecked: url('./img/action/cam.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Camera</p>
+                    </div>
+                </label>
+                <!-- Hands-Up Button -->
+                <label class="action-button" style="--edge-ratio: 1;">
+                    <label class="action-button-img" style="
+                        --img-unchecked: url('./img/action/palm.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Hands Up</p>
+                    </div>
+                </label>
+                <!-- Share-Screen Button -->
+                <label class="action-button" style="--edge-ratio: 1;">
+                    <label class="action-button-img" style="
+                        --img-unchecked: url('./img/action/share.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Share Screen</p>
+                    </div>
+                </label>
+                <!-- More-Option Button -->
+                <label class="action-button" style="--edge-ratio: 1;">
+                    <label class="action-button-img" style="
+                        --img-unchecked: url('./img/action/option.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Options</p>
+                    </div>
+                </label>
+                <!-- Hang-Up Button -->
+                <label class="action-button" style="--edge-ratio: 1.5;" default-red>
+                    <label class="action-button-img" style="
+                        --img-unchecked: url('./img/action/hang-up.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Hang Up</p>
+                    </div>
+                </label>
+            </div>
+            <div class="info-bar">
+                <!-- Information -->
+                <label class="info-button" style>
+                    <label class="info-button-img" style="
+                        --img-unchecked: url('./img/info/info.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Information</p>
+                    </div>
+                </label>
+                <!-- Participants -->
+                <label class="info-button" style>
+                    <label class="info-button-img" style="
+                        --img-unchecked: url('./img/info/paticipant.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Participants</p>
+                    </div>
+                </label>
+                <!-- Chat -->
+                <label class="info-button" style>
+                    <label class="info-button-img" style="
+                        --img-unchecked: url('./img/info/chat.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Chat</p>
+                    </div>
+                </label>
+                <!-- Activities -->
+                <label class="info-button" style>
+                    <label class="info-button-img" style="
+                        --img-unchecked: url('./img/info/activity.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Activities</p>
+                    </div>
+                </label>
+                <!-- Control -->
+                <label class="info-button" style>
+                    <label class="info-button-img" style="
+                        --img-unchecked: url('./img/info/control.svg')"></label>
+                    <div class="button-tooltip">
+                        <p class="button-tooltip-text">Control</p>
+                    </div>
+                </label>
+            </div>
+            <!-- <div class="footer" -->
+        </div>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+.action-bar {
+    grid-column-start: 4;
+    grid-column-end: 10;
+    grid-row-start: 3;
+    grid-row-end: 4;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-bar .action-button-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.action-bar .action-button {
+    --height: 4.2vmin;
+    --button-space: 1.4vmin;
+
+    height: var(--height);
+    width: calc(var(--edge-ratio) * var(--height));
+
+    border-radius: calc(var(--height) / 2);
+    border: 0;
+    margin-left: calc(var(--button-space) / 2);
+    margin-right: calc(var(--button-space) / 2);
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.action-bar .action-button:not([default-red]) {
+    background-color: rgb(62, 63, 67);
+}
+
+.action-bar .action-button:not([default-red]):hover {
+    background-color: rgb(67, 70, 73);
+}
+
+.action-bar .action-button[default-red] {
+    background-color: rgb(214, 79, 63);
+}
+
+.action-bar .action-button:has(.action-button-checkbox:checked) {
+    background-color: rgb(214, 79, 63);
+}
+
+.action-bar .action-button-img {
+    pointer-events:none;
+    user-select: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(height);
+    height: 60%;
+
+    transform: translate(-50%, -50%);
+
+    content: var(--img-unchecked);
+}
+
+.action-bar .action-button-checkbox ~ .action-button-img:after {
+    visibility: hidden;
+    content: var(--img-checked) var(--img-unchecked);
+}
+
+.action-bar .action-button-checkbox:checked ~ .action-button-img {
+    content: var(--img-checked);
+}
+
+.action-bar .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(62, 63, 67);
+
+    transition: 0.3s ease;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+
+}
+
+.action-bar .action-button:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.action-bar .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
+
+
+
+

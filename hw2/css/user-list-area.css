@@ -1,0 +1,216 @@
+.user-list-area {
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+
+    overflow-y: auto;
+}
+
+.user-pin-area[enabled="true"] + .user-list-area {
+    --height: 20vmin;
+    grid-column-start: 9;
+    grid-column-end: 12;
+}
+
+.user-pin-area[enabled="false"] + .user-list-area {
+    --height: 30vmin;
+    grid-column-start: 2;
+    grid-column-end: 12;
+}
+
+.user-list {
+    max-height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.user-list .user {
+    width: calc(var(--height) * 11 / 8);
+    max-width: calc(var(--height) * 11 / 8);
+    height: var(--height);
+    background-color: rgb(74, 78, 81);
+
+    border-radius: 1vmin;
+    margin: 0.5%;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: start;
+    flex-grow: 0.3;
+}
+
+.user-list .user-img {
+    --width: 10vmin;
+    width: var(--width);
+    height: var(--width);
+
+    user-select: none;
+
+    border-radius: 50%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.user-list .user-name {
+    width: fit-content;
+    height: 3vmin;
+
+    margin: 0;
+    margin-left: 1.5vmin;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.5vmin;
+    color: white;
+}
+
+.user-list .mic-state {
+    --height: 2.4vmin;
+    height: var(--height);
+    width: var(--height);
+    background-color: rgb(54, 55, 59);
+    user-select: none;
+
+    margin-right: 1.5vmin;
+    margin-top: 1.5vmin;
+    padding: 0.2vmin;
+    border-radius: var(--height);
+
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+.user-list .user-tooltip {
+    --height: 5vmin;
+    height: var(--height);
+    width: calc(var(--height) * 3);
+    background-color: black;
+    opacity: 0;
+    transition: 0.4s ease;
+    user-select: none;
+
+    border-radius: var(--height);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.user-list .user:hover > .user-tooltip:not(:hover) {
+    opacity: 0.3;
+}
+
+.user-list .user-tooltip:hover {
+    opacity: 0.6;
+}
+
+.user-list .tooltip-option {
+    --height: 5vmin;
+    height: var(--height);
+    width: var(--height);
+    background-color: rgba(100, 100, 100, 0);
+    transition: 0.2s ease;
+
+    cursor: pointer;
+
+    border-radius: calc(var(--height) / 2);
+    position: relative;
+}
+
+.user-list .tooltip-option-img {
+    width: 100%;
+    height: 100%;
+    /* border-radius: 50%; */
+}
+
+.user-list .tooltip-option:hover {
+    background-color: rgb(60, 64, 67);
+}
+
+.user-list .button-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+
+    width: fit-content;
+    height: fit-content;
+    background-color: black;
+
+    border-radius: 0.5vmin;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+}
+
+.user-list .tooltip-option:hover .button-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.user-list .button-tooltip-text {
+    margin: 0;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+
+    white-space: nowrap;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3vmin;
+    color: white;
+}
+
+.user-list .user-info {
+    width: fit-content;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user-list .pin-state {
+    --height: 3vmin;
+    height: var(--height);
+    width: var(--height);
+    /* width: 0; */
+    user-select: none;
+
+    margin-top: 0.5vmin;
+    margin-left: 1.5vmin;
+    /* margin-right: 1.5vmin; */
+
+    border-radius: var(--height);
+
+    visibility: hidden;
+    display: none;
+}
+
+.user-list #template-user {
+    visibility: hidden;
+    display: none;
+}
