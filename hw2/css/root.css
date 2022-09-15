@@ -13,10 +13,10 @@
     grid-template-rows: 0% 0.94fr 0.06fr 0%;
 }
 
-.user-list #template-user {
-    visibility: hidden;
-    display: none;
-}
+/* .user-list #template-user { */
+/*     visibility: hidden; */
+/*     display: none; */
+/* } */
 
 @font-face {
     font-family: myFirstFont;

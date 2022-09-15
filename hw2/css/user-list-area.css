@@ -32,21 +32,15 @@
 }
 
 .user-list .user {
+    height: var(--height);
     width: calc(var(--height) * 11 / 8);
     max-width: calc(var(--height) * 11 / 8);
-    height: var(--height);
     background-color: rgb(74, 78, 81);
 
     border-radius: 1vmin;
-    margin: 0.5%;
+    margin: 0.5vmin;
 
     position: relative;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: start;
-    flex-grow: 0.3;
 }
 
 .user-list .user-img {
@@ -70,7 +64,7 @@
     width: calc(var(--height) * 3);
     background-color: black;
     opacity: 0;
-    transition: 0.4s ease;
+    /* transition: 0.4s ease; */
     user-select: none;
 
     border-radius: var(--height);
@@ -158,10 +152,9 @@
     width: fit-content;
     height: fit-content;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .user-list .pin-state {
@@ -171,6 +164,9 @@
     /* width: 0; */
     user-select: none;
 
+    position: absolute;
+    top: 0;
+    left: 0;
     margin-top: 0.5vmin;
     margin-left: 1.5vmin;
     /* margin-right: 1.5vmin; */

@@ -22,13 +22,14 @@
 }
 
 .user-list .user {
-    --height: 20vh;
+    --height: 20vmin;
+    height: var(--height);
     width: calc(var(--height) * 11 / 8);
-    height: 20vh;
+    /* max-width: calc(var(--height) * 11 / 8); */
     background-color: rgb(74, 78, 81);
 
     border-radius: 1vmin;
-    margin: 1%;
+    margin: 0.5vmin;
 
     position: relative;
 

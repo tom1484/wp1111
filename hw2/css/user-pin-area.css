@@ -50,7 +50,7 @@
     width: calc(var(--height) * 3);
     background-color: black;
     opacity: 0;
-    transition: 0.4s ease;
+    /* transition: 0.4s ease; */
     user-select: none;
 
     border-radius: var(--height);

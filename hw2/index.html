@@ -11,8 +11,7 @@
         <link rel="stylesheet" type="text/css" href="./css/root.css">
     </head>
 
-    <body>
-        <script src="main.js"></script>
+    <template>
         <div class="user" id="template-user">
             <img class="user-img" src="">
             <div class="user-tooltip">
@@ -47,6 +46,10 @@
                 <p class="user-name">Template</p>
             </div>
         </div>
+    </template>
+
+    <body>
+        <script src="main.js"></script>
         <div class="root">
             <div class="user-pin-area" enabled="false">
             </div>
@@ -114,7 +117,7 @@
             </div>
             <div class="info-bar">
                 <!-- Information -->
-                <label class="info-button" style>
+                <label class="info-button">
                     <label class="info-button-img" style="
                         --img-unchecked: url('./img/info/info.svg')"></label>
                     <div class="button-tooltip">
@@ -122,15 +125,18 @@
                     </div>
                 </label>
                 <!-- Participants -->
-                <label class="info-button" style>
+                <label class="info-button">
                     <label class="info-button-img" style="
                         --img-unchecked: url('./img/info/paticipant.svg')"></label>
                     <div class="button-tooltip">
                         <p class="button-tooltip-text">Participants</p>
                     </div>
+                    <div class="participant-count">
+                        <p class="participant-count-text"></p>
+                    </div>
                 </label>
                 <!-- Chat -->
-                <label class="info-button" style>
+                <label class="info-button">
                     <label class="info-button-img" style="
                         --img-unchecked: url('./img/info/chat.svg')"></label>
                     <div class="button-tooltip">
@@ -138,7 +144,7 @@
                     </div>
                 </label>
                 <!-- Activities -->
-                <label class="info-button" style>
+                <label class="info-button">
                     <label class="info-button-img" style="
                         --img-unchecked: url('./img/info/activity.svg')"></label>
                     <div class="button-tooltip">
@@ -146,7 +152,7 @@
                     </div>
                 </label>
                 <!-- Control -->
-                <label class="info-button" style>
+                <label class="info-button">
                     <label class="info-button-img" style="
                         --img-unchecked: url('./img/info/control.svg')"></label>
                     <div class="button-tooltip">

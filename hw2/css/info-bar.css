@@ -83,3 +83,37 @@
     font-size: 1.3vmin;
     color: white;
 }
+
+.info-bar .participant-count {
+    cursor: default;
+    pointer-events: none;
+
+    width: 2.3vmin;
+    height: 2.3vmin;
+    background-color: rgb(96, 97, 102);
+
+    border-radius: 50%;
+
+    position: absolute;
+    bottom: 70%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
+
+}
+
+.info-bar .participant-count-text {
+    width: fit-content;
+    height: fit-content;
+
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.2vmin;
+    color: white;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
