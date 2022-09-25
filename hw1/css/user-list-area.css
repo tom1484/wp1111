@@ -24,7 +24,8 @@
 .user-list .user {
     --height: 20vmin;
     height: var(--height);
-    width: calc(var(--height) * 11 / 8);
+    width: 48%;
+    /* width: calc(var(--height) * 11 / 8); */
     /* max-width: calc(var(--height) * 11 / 8); */
     background-color: rgb(74, 78, 81);
 
