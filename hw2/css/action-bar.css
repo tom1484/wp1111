@@ -18,8 +18,8 @@
 }
 
 .action-bar .action-button {
-    --height: 4.2vmin;
-    --button-space: 1.4vmin;
+    --height: 5vmin;
+    --button-space: 1.7vmin;
 
     height: var(--height);
     width: calc(var(--edge-ratio) * var(--height));
@@ -110,7 +110,7 @@
     white-space: nowrap;
 
     font-family: 'Noto Sans TC', sans-serif;
-    font-size: 1.3vmin;
+    font-size: 1.8vmin;
     color: white;
 }
 
