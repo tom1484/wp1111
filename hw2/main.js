@@ -1,7 +1,6 @@
 window.onload = () => {
 
     let userPin = document.getElementsByClassName("user-pin-area")[0];
-    // let userListArea = document.getElementsByClassName("user-list-area")[0];
     let userList = document.getElementsByClassName("user-list-area")[0];
 
     let templateUser = document.querySelector("template").content.querySelector("#template-user");
