@@ -1,7 +1,5 @@
 window.onload = () => {
 
-    // let root = document.getElementsByClassName("root")[0];
-
     let userPin = document.getElementsByClassName("user-pin-area")[0];
     let userList = document.getElementsByClassName("user-list")[0];
 
@@ -96,8 +94,6 @@ window.onload = () => {
         // append child
         userList.appendChild(userTag);
     }
-    
-    this.pinnedUser = -1; 
 }
 
 
