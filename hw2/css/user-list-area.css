@@ -39,8 +39,15 @@
     transform: translate(-50%, -50%);
 }
 
-.user-list-area .user-tooltip {
+.user-pin-area[enabled="true"] + .user-list-area .user-tooltip {
     --height: 25%;
+}
+
+.user-pin-area[enabled="false"] + .user-list-area .user-tooltip {
+    --height: 20%;
+}
+
+.user-list-area .user-tooltip {
     height: var(--height);
     aspect-ratio: 3;
     /* width: calc(var(--height) * (8 / 11) * 3); */

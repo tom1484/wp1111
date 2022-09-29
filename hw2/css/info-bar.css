@@ -9,6 +9,8 @@
     flex-wrap: nowrap;
     justify-content: end;
     align-items: center;
+
+    user-select: none;
 }
 
 .info-bar .info-button {

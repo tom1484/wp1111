@@ -112,7 +112,7 @@ window.onload = () => {
         adjustListLayout();
     }
 
-    for (let userInfo of defaultUserInfo) {
+    function addUser(userInfo) {
         let userTag = templateUser.cloneNode(true);
         userTag.removeAttribute("id");
         // add pin sate
@@ -201,9 +201,40 @@ window.onload = () => {
         listUserCount += 1;
     }
 
+    for (let userInfo of defaultUserInfo) {
+        addUser(userInfo);
+    }
+
     window.addEventListener("resize", () => adjustLayout());
 
     adjustLayout();
+
+    let addParticipant = document.getElementById("add-participant");
+    let addDialog = document.getElementsByClassName("add-dialog")[0];
+
+    console.log(addParticipant);
+    addParticipant.addEventListener("click", () => {
+        if (addDialog.style.visibility == "visible") {
+            addDialog.style.visibility = "hidden";
+        }
+        else {
+            addDialog.style.visibility = "visible";
+        }
+    });
+
+    let userNameInput = document.getElementsByClassName("user-name-input-text")[0];
+    let userImageInput = document.getElementsByClassName("user-image-input-drop")[0];
+    let addButton = document.getElementsByClassName("add-button")[0];
+    addButton.addEventListener("click", () => {
+        let userInfo = {
+            userName: userNameInput.value, 
+            userImage: userImageInput.value, 
+            isSelf: false,
+        }; 
+        addUser(userInfo);
+        adjustLayout();
+        addDialog.style.visibility = "hidden";
+    })
 }
 
 
