@@ -49,8 +49,8 @@
 
 .user-list-area .user-tooltip {
     height: var(--height);
+    max-height: 10vh;
     aspect-ratio: 3;
-    /* width: calc(var(--height) * (8 / 11) * 3); */
 
     background-color: black;
     opacity: 0;

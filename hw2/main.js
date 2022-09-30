@@ -23,6 +23,7 @@ window.onload = () => {
     ];
 
     let listUserCount = 0;
+    let userCount = 0;
     let participantCountTag = document.getElementsByClassName("participant-count-text")[0];
     participantCountTag.innerText = 0;
 
@@ -144,9 +145,25 @@ window.onload = () => {
             }
             else {
                 userList.removeChild(userTag);
+                listUserCount -= 1;
             }
             participantCountTag.innerText -= 1;
-            listUserCount -= 1;
+            userCount -= 1;
+
+            if (userCount == 1) {
+                if (listUserCount == 0) {
+                    pinnedUserTag = userPin.children[0];
+                    // unpin user
+                    userPin.setAttribute("enabled", false);
+
+                    userPin.removeChild(pinnedUserTag);
+                    pinnedUserTag.setAttribute("pinned", false);
+
+                    userList.appendChild(pinnedUserTag);
+
+                    listUserCount += 1;
+                }
+            }
 
             adjustLayout();
         }
@@ -207,6 +224,7 @@ window.onload = () => {
         // append child
         userList.appendChild(userTag);
         listUserCount += 1;
+        userCount += 1;
 
         participantCountTag.innerText = parseInt(participantCountTag.innerText) + 1;
     }
