@@ -67,6 +67,8 @@
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+
+    z-index: 9;
 }
 
 .user-list-area .user:hover > .user-tooltip:not(:hover) {

@@ -3,19 +3,28 @@ window.onload = () => {
     let userPin = document.getElementsByClassName("user-pin-area")[0];
     let userList = document.getElementsByClassName("user-list-area")[0];
 
+    userImageFile = [
+        "./css/img/user/user-0.png", 
+        "./css/img/user/user-1.png", 
+        "./css/img/user/user-2.png", 
+        "./css/img/user/user-3.png", 
+        "./css/img/user/user-4.png", 
+        "./css/img/user/user-5.png", 
+    ]
+
     let templateUser = document.querySelector("template").content.querySelector("#template-user");
     let defaultUserInfo = [
-        { userName: "User0", userImage: "./css/img/user/user-pin.png", isSelf: true }, 
-        { userName: "User1", userImage: "./css/img/user/user-list-1.png", isSelf: false }, 
-        { userName: "User2", userImage: "./css/img/user/user-list-2.png", isSelf: false }, 
-        { userName: "User3", userImage: "./css/img/user/user-list-3.png", isSelf: false }, 
-        { userName: "User4", userImage: "./css/img/user/user-list-4.png", isSelf: false }, 
-        { userName: "User5", userImage: "./css/img/user/user-list-5.png", isSelf: false }, 
+        { userName: "User0", userImage: userImageFile[0], isSelf: true }, 
+        { userName: "User1", userImage: userImageFile[1], isSelf: false }, 
+        { userName: "User2", userImage: userImageFile[2], isSelf: false }, 
+        { userName: "User3", userImage: userImageFile[3], isSelf: false }, 
+        { userName: "User4", userImage: userImageFile[4], isSelf: false }, 
+        { userName: "User5", userImage: userImageFile[5], isSelf: false }, 
     ];
 
     let listUserCount = 0;
     let participantCountTag = document.getElementsByClassName("participant-count-text")[0];
-    participantCountTag.innerText = defaultUserInfo.length;
+    participantCountTag.innerText = 0;
 
     function adjustPinLayout() {
         let maxWidth = userPin.offsetWidth;
@@ -198,6 +207,8 @@ window.onload = () => {
         // append child
         userList.appendChild(userTag);
         listUserCount += 1;
+
+        participantCountTag.innerText = parseInt(participantCountTag.innerText) + 1;
     }
 
     for (let userInfo of defaultUserInfo) {
@@ -223,6 +234,13 @@ window.onload = () => {
 
     let userNameInput = document.getElementsByClassName("user-name-input-text")[0];
     let userImageInput = document.getElementsByClassName("user-image-input-drop")[0];
+
+    for (let file of userImageFile) {
+        let option = document.createElement("option");
+        option.innerText = file;
+        userImageInput.appendChild(option);
+    }
+
     let addButton = document.getElementsByClassName("add-button")[0];
     addButton.addEventListener("click", () => {
         let userInfo = {
