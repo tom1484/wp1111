@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import './styles.css'
 
 function App() {
@@ -6,45 +6,88 @@ function App() {
   // Reducer for view state
   const initialViewState = {
     mode: 0, 
-    buttonState: [ "true", "false", "false" ], 
+    buttonState: [ true, false, false ], 
   };
 
   const viewStateReducer = ( state, newMode ) => {
     if (state.mode != newMode) {
-      let newButtonState = [ "false", "false", "false" ];
-      newButtonState[newMode] = "true";
+      let newButtonState = [ false, false, false ];
+      newButtonState[newMode] = true;
 
       return {
         mode: newMode, 
         buttonState: newButtonState
-      }
+      };
     }
+    return state;
   }
 
   const [ viewState, viewStateChanger ] = useReducer(viewStateReducer, initialViewState);
 
+  // Changer for TODO number
+  const [ TODOLeft, setTODOLeft ] = useState(0);
+
   // Reducer for TODO list
-  const initialTODOList = [
-    { completed: false, content: "Eat" }, 
-    { completed: false, content: "Sleep" }, 
-    { completed: false, content: "Jump" }, 
-  ];
-
   const TODOListReducer = ( state, action ) => {
-    switch (action.type) {
-      case "CHANGE":
-        console.log("CHANGE");
-        break;
-      case "DELETE":
-        console.log("DELETE");
-        break;
-      case "ADD":
-        console.log("ADD");
-        break;
-    }
-  }
+    if (action.type == "CHANGE") {
+      let newTODOList = [...state];
+      let index = action.value;
 
-  const [ TODOList, TODOListChanger ] = useReducer(TODOListReducer, initialTODOList);
+      newTODOList[index].completed = !newTODOList[index].completed;
+      if (newTODOList[index].completed) {
+        setTODOLeft(TODOLeft - 1);
+      }
+      else {
+        setTODOLeft(TODOLeft + 1);
+      }
+      
+      return newTODOList;
+    }
+
+    if (action.type == "DELETE") {
+      let newTODOList = [...state];
+      let index = action.value;
+
+      newTODOList.splice(index, 1);
+      if (!state[index].completed) {
+        setTODOLeft(TODOLeft - 1);
+      }
+      
+      return newTODOList;
+    }
+
+    if (action.type == "ADD") {
+      let newTODOList = [...state];
+      let target = action.value;
+      let index = Date.now();
+      let content = target.value;
+      target.value = "";
+      
+      newTODOList.push({
+        index: index, completed: false, content: content, 
+      });
+      setTODOLeft(TODOLeft + 1);
+      
+      return newTODOList;
+    }
+
+    if (action.type == "CLEAR") {
+      let newTODOList = [];
+      
+      let count = 0;
+      for (let todo of state) {
+        if (!todo.completed) {
+          newTODOList.push(todo);
+          count += 1;
+        }
+      }
+      setTODOLeft(count);
+
+      return newTODOList;
+    }
+  };
+
+  const [ TODOList, TODOListChanger ] = useReducer(TODOListReducer, []);
 
   return (
     <div className="todo-app__root">
@@ -53,46 +96,65 @@ function App() {
       </header>
 
       <section className="todo-app__main">
-        <input className="todo-app__input" type="text" placeholder="What needs to be done?"/>
+        <input 
+          onKeyDown={ (event) => {
+            if (event.key == "Enter") {
+              TODOListChanger({ type: "ADD", value: event.target });
+            }
+          } }
+          className="todo-app__input" type="text" placeholder="What needs to be done?"/>
         <ul className="todo-app__list" id="todo-list">
           {
-            TODOList.map((todo, index) => {
+            TODOList.map((todo, key) => {
+              let index = todo.index;
+              let completed = todo.completed;
+              let content = todo.content;
+
+              if (viewState.mode == 1 && completed) {
+                return;
+              }
+              if (viewState.mode == 2 && !completed) {
+                return;
+              }
+
               return (
-                <li key={index} className="todo-app__item">
+                <li key={ index } className="todo-app__item" completed={ completed.toString() }>
                   <div className="todo-app__checkbox">
-                    <input id={ index } type="checkbox" checked="true"/>
+                    <input
+                      onChange={ () => TODOListChanger({ type: "CHANGE", value: key }) }
+                      id={ index } type="checkbox" defaultChecked={ completed }/>
                     <label htmlFor={ index }/>
                   </div>
                   <h1 className="todo-app__item-detail">
-                    { todo.content }
+                    { content }
                   </h1>
-                  <img src={ require("./img/x.png") } className="todo-app__item-x"/>
+                  <img 
+                    onClick={ () => TODOListChanger({ type: "DELETE", value: key }) } 
+                    src={ require("./img/x.png") } className="todo-app__item-x"/>
                 </li>
               );
             })
           }
-          {/* <li className="todo-app__item">
-            <div className="todo-app__checkbox">
-              <input id="2" type="checkbox"/>
-              <label htmlFor="2"/>
-            </div>
-            <h1 className="todo-app__item-detail">
-              Item 1
-            </h1>
-            <img src={ require("./img/x.png") } className="todo-app__item-x"/>
-          </li> */}
         </ul>
       </section>
 
-      <footer className="todo-app__footer" id="todo-footer">
-        <div className="todo-app__total"></div>
+      <footer className="todo-app__footer" id="todo-footer" enable={ (TODOList.length > 0).toString() }>
+        <div className="todo-app__total">
+          <p>{ TODOLeft + " left" }</p>
+        </div>
         <ul className="todo-app__view-buttons">
-          <button onClick={ () => viewStateChanger(0) } select={ viewState.buttonState[0] }>All</button>
-          <button onClick={ () => viewStateChanger(1) } select={ viewState.buttonState[1] }>Active</button>
-          <button onClick={ () => viewStateChanger(2) } select={ viewState.buttonState[2] }>Completed</button>
+          <button 
+            onClick={ () => viewStateChanger(0) } 
+            select={ viewState.buttonState[0].toString() }>All</button>
+          <button 
+            onClick={ () => viewStateChanger(1) } 
+            select={ viewState.buttonState[1].toString() }>Active</button>
+          <button 
+            onClick={ () => viewStateChanger(2) } 
+            select={ viewState.buttonState[2].toString() }>Completed</button>
         </ul>
         <div className="todo-app__clean">
-
+          <button onClick={ () => TODOListChanger({ type: "CLEAR" }) }>Clear Completed</button>
         </div>
       </footer>
     </div>
