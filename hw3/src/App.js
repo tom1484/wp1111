@@ -154,7 +154,9 @@ function App() {
             select={ viewState.buttonState[2].toString() }>Completed</button>
         </ul>
         <div className="todo-app__clean">
-          <button onClick={ () => TODOListChanger({ type: "CLEAR" }) }>Clear Completed</button>
+          <button 
+            onClick={ () => TODOListChanger({ type: "CLEAR" }) } 
+            enable={ (TODOList.length - TODOLeft > 0).toString() }>Clear Completed</button>
         </div>
       </footer>
     </div>

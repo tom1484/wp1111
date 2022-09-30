@@ -221,7 +221,7 @@ input[type='checkbox'] {
     background-color: rgb(240, 240, 240);
 
     user-select: none;
-    transition: 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
 .todo-app__clean button:focus {
@@ -230,6 +230,10 @@ input[type='checkbox'] {
 
 .todo-app__clean button:hover {
     background-color: rgb(220, 220, 220);
+}
+
+.todo-app__clean button[enable='false'] {
+    visibility: hidden;
 }
 
 .todo-item-input {
