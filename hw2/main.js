@@ -171,6 +171,10 @@ window.onload = () => {
         // set tooltip event listener for clicking
         let tooltipOptions = userTag.getElementsByClassName("tooltip-option");
         let pinClickListener = () => {
+            if (userCount == 1) {
+                return;
+            }
+
             if (userTag.getAttribute("pinned") == "true") {
                 // unpin user
                 userPin.setAttribute("enabled", false);
