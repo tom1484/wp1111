@@ -274,6 +274,32 @@ window.onload = () => {
         adjustLayout();
         addDialog.style.visibility = "hidden";
     })
+
+
+    let footerText = document.getElementsByClassName("footer-text")[0];
+    function setTime() {
+        let date = new Date();
+        let hours = date.getHours ();
+        let minutes = date.getMinutes();
+        let half = "";
+        if (hours >= 0 && hours < 12) {
+            half = "AM";
+            if (hours == 0) {
+                hours = 12;
+            }
+        }
+        else if (hours >= 12 && hours <= 23) {
+            half = "PM";
+            if (hours > 12) {
+                hours -= 12;
+            }
+        }
+
+        footerText.innerHTML = half + " " + hours + ":" + minutes + "&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;hrk-ckvn-zeh";
+    }
+
+    setTime();
+    setInterval(setTime, 1000);
 }
 
 
