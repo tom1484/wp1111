@@ -184,8 +184,8 @@
     background-color: rgb(54, 55, 59);
     user-select: none;
 
-    margin-right: 1.5vmin;
-    margin-top: 1.5vmin;
+    margin-right: 3%;
+    margin-top: 3%;
     padding: 0.2vmin;
     border-radius: var(--height);
 
@@ -201,8 +201,8 @@
     background-color: rgb(54, 55, 59);
     cursor: pointer;
 
-    margin-left: 1.5vmin;
-    margin-top: 1.5vmin;
+    margin-left: 3%;
+    margin-top: 3%;
     padding: 0.2vmin;
     border-radius: var(--height);
 
