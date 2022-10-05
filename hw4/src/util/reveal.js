@@ -7,31 +7,37 @@
 ****************************************************************************/
 
 export const revealed = (board, x, y, newNonMinesCount) => {
-    if (board[x][y].value != 0) {
+    if (board[x][y].value == '💣') {
         board[x][y].revealed = true;
-        if (board[x][y].value != '💣') {
-            newNonMinesCount--;
-        }
+        return { board, newNonMinesCount };
+    }
+
+    let visit = [];
+    for (let i = 0; i < board.length; i++) {
+        visit.push(new Array(board[0].length).fill(false));
     }
 
     let queue = [[x, y]];
     while (queue.length != 0) {
         let curr = queue[0];
         let cx = curr[0], cy = curr[1];
-        // console.log(board[cx][cy]);
         queue.splice(0, 1);
-        if (!checkValidity(board, cx, cy)) {
+
+        if (visit[cx][cy]) {
             continue;
         }
+        visit[cx][cy] = true;
 
         board[cx][cy].revealed = true;
         newNonMinesCount--;
 
-        for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-                let sx = cx + i, sy = cy + j;
-                if (checkValidity(board, sx, sy)) {
-                    queue.push([sx, sy]);
+        if (board[cx][cy].value == 0) {
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    let sx = cx + i, sy = cy + j;
+                    if (checkValidity(board, sx, sy) && !visit[sx][sy]) {
+                        queue.push([sx, sy]);
+                    }
                 }
             }
         }
@@ -44,6 +50,8 @@ const checkValidity = (board, x, y) => {
     return (
         0 <= x && x < board.length
         && 0 <= y && y < board[0].length 
-        && board[x][y].value == 0 && !board[x][y].revealed && !board[x][y].flagged
+        && !board[x][y].revealed && !board[x][y].flagged
     );
 }
+
+// const 

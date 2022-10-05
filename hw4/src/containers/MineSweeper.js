@@ -24,6 +24,7 @@ const MineSweeper = () => {
     // Advanced TODO: Change `mineNum` to the number you send by this function
     const mineNumOnChange = (value) => {
         setMineNum(value);
+        console.log(value);
     }
 
     // Advanced TODO: Change `boardSize` to the number you send by this function

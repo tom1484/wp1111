@@ -7,7 +7,7 @@
 ****************************************************************************/
 
 import './css/HomePage.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const HomePage = ({ startGameOnClick, mineNumOnChange, boardSizeOnChange, mineNum, boardSize /* -- something more... -- */ }) => {
     const [showPanel, setShowPanel] = useState(false);      // A boolean variable. If true, the controlPanel will show.
@@ -17,23 +17,13 @@ const HomePage = ({ startGameOnClick, mineNumOnChange, boardSizeOnChange, mineNu
         setShowPanel(!showPanel);
     }
 
-    const checkError = () => {
+    useEffect(() => {
         if (mineNum > boardSize * boardSize) {
             setError(true);
         } else {
             setError(false);
         }
-    }
-
-    const boardSizeSliderOnChange = (value) => {
-        boardSizeOnChange(value);
-        checkError();
-    }
-
-    const mineNumSliderOnChange = (value) => {
-        mineNumOnChange(value);
-        checkError();
-    }
+    }, [mineNum, boardSize]);
 
     return (
         <div className='HomeWrapper'>
@@ -53,16 +43,16 @@ const HomePage = ({ startGameOnClick, mineNumOnChange, boardSizeOnChange, mineNu
                                     <p className='controlTitle'>Mines Number</p>
                                     <input 
                                         className='inputSlider' 
-                                        type='range' min='1' max='400' defaultValue={ mineNum }
-                                        onChange={ (event) => mineNumSliderOnChange(event.target.value)}></input>
+                                        type='range' min='1' max='324' defaultValue={ mineNum }
+                                        onChange={ (e) => mineNumOnChange(e.target.value)}></input>
                                     <p className='controlNum' error={ error.toString() }>{ mineNum }</p>
                                 </div>
                                 <div className='controlCol'>
                                     <p className='controlTitle'>Board Size (n*n)</p>
                                     <input 
                                         className='inputSlider' 
-                                        type='range' min='1' max='20' defaultValue={ boardSize }
-                                        onChange={ (event) => boardSizeSliderOnChange(event.target.value) }></input>
+                                        type='range' min='1' max='18' defaultValue={ boardSize }
+                                        onChange={ (e) => boardSizeOnChange(e.target.value) }></input>
                                     <p className='controlNum' error={ error.toString() }>{ boardSize }</p>
                                 </div>
                             </div>
