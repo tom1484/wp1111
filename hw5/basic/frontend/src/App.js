@@ -170,7 +170,7 @@ function App() {
                     return (
                         <div className='restart-wrapper'>
                             <h1 className='restart-msg'>
-                                You won! The number is ' + lastInput
+                                You won! The number is {lastInput}
                             </h1>
                             <button className='restart' onClick={() => restartOnClick()}>
                                 restart game
