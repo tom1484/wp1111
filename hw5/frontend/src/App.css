@@ -6,16 +6,36 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-wrapper {
+    width: 100%;
+    height: fit-content;
+
+    /* position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-msg {
+    font-size: 2rem;
+    color: black;
 }
 
 .start {
-    width: fit-content;
+    width: 15rem;
     aspect-ratio: 4;
-
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
 
     font-size: 2rem;
 }
@@ -24,10 +44,10 @@
     width: 80%;
     height: fit-content;
 
-    position: absolute;
+    /* position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
 
     display: flex;
     flex-direction: column;
@@ -54,11 +74,12 @@
 }
 
 .input {
-    height: 100%;
+    height: fit-content;
     width: 100%;
 
-    display: inline-block;
+    border-width: 2px;
 
+    display: inline-block;
     font-size: 1.5rem;
 }
 
@@ -67,4 +88,36 @@
     height: fit-content;
 
     font-size: 1.5rem;
+}
+
+.restart-wrapper {
+    width: 100%;
+    height: fit-content;
+
+    /* position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.restart-msg {
+    font-size: 2rem;
+    color: black;
+}
+
+.restart {
+    width: 15rem;
+    aspect-ratio: 4;
+
+    font-size: 2rem;
+}
+
+.error {
+    font-size: 2rem;
+    color: red;
 }

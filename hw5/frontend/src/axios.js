@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 
 const instance = axios.create({
@@ -6,19 +6,35 @@ const instance = axios.create({
 });
 
 const startGame = async () => {
-    const res = await instance.post('/start');
-    return res;
-}
+    try {
+        const res = await instance.post('/start');
+        return res;
+    }
+    catch (e) {
+        return e;
+    }
+};
 
 const guess = async (number) => {
-    const res = await instance.get('/guess', {
-        params: { number }
-    });
-    return res;
-}
+    try {
+        const res = await instance.get('/guess', {
+            params: { number }
+        });
+        return res;
+    }
+    catch (e) {
+        return e;
+    }
+};
 
 const restart = async () => {
-
-}
+    try {
+        const res = await instance.post('/restart');
+        return res;
+    }
+    catch (e) {
+        return e;
+    }
+};
 
 export { startGame, guess, restart };
