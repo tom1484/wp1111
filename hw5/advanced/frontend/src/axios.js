@@ -15,10 +15,10 @@ const startGame = async () => {
     }
 };
 
-const guess = async (number) => {
+const submit = async (code) => {
     try {
         const res = await instance.get('/guess', {
-            params: { number }
+            params: { code }
         });
         return res;
     }
@@ -37,4 +37,4 @@ const restart = async () => {
     }
 };
 
-export { startGame, guess, restart };
+export { startGame, submit, restart };

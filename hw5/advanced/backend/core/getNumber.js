@@ -5,7 +5,11 @@ const getNumber = () => {
 }
 
 const genNumber = () => {
-    number = Math.floor(Math.random() * 99.99) + 1;
+    number = '';
+    for (let i = 0; i < 4; i++) {
+        let digit = Math.floor(Math.random() * 9.99).toString();
+        number += digit;
+    }
     console.log(number);
 }
 

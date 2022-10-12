@@ -4,34 +4,26 @@ import { getNumber, genNumber } from '../core/getNumber'
 const router = express.Router(); 
 
 function checkGuess(guess) {
-    if (isNaN(guess)) {
-        return false;
+    if (guess.length == 4) {
+        for (let digit of guess) {
+            if (isNaN(digit)) {
+                return false;
+            }
+        }
+        return true;
     }
     else {
-        guess = parseInt(guess);
-        if (1 <= guess && guess <= 100) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return false;
     }
 }
 
 router.get('/guess', (req, res) => {
-    const guess = req.query.number;
+    const guess = req.query.code;
+    console.log(guess);
 
     if (checkGuess(guess)) {
         const number = getNumber();
-        if (guess < number) {
-            res.json({ status: 'bigger' });
-        }
-        else if (guess > number) {
-            res.json({ status: 'smaller' });
-        }
-        else {
-            res.json({ status: 'bingo' });
-        }
+        res.json({ status: '1A1B' });
     }
     else {
         res.sendStatus(406);

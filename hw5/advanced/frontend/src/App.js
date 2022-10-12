@@ -1,15 +1,19 @@
 import './App.css';
-import React, { useState } from 'react'
-import { startGame, guess, restart } from './axios'
+import React, { useState } from 'react';
 import axios from 'axios';
+import { startGame, submit, restart } from './axios';
+
+import Game from './components/Game';
+import StartPanel from './components/StartPanel';
+import RestartPanel from './components/RestartPanel';
+
 
 function App() {
     const [hasStarted, setHasStarted] = useState(false);
     const [hasWon, setHasWon] = useState(false);
-    const [number, setNumber] = useState('');
     const [status, setStatus] = useState('');
 
-    const [lastInput, setLastInput] = useState('');
+    // const [lastInput, setLastInput] = useState('');
     const [hasError, setHasError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
@@ -59,65 +63,33 @@ function App() {
             });
     }
 
-    function handleGuessResult(res) {
-        res = handleAXiosResponse(res);
-
-        if (res) {
-            const httpStatus = res.status;
-            if (httpStatus == 200) {
-                const guessRes = res.data.status;
-                switch (guessRes) {
-                    case 'smaller':
-                        setStatus('smaller');
-                        break;
-                    case 'bigger':
-                        setStatus('bigger');
-                        break;
-                    case 'bingo':
-                        setStatus('');
-                        setHasStarted(false);
-                        setHasWon(true);
-                        setLastInput(number);
-                        break;
-                }
-                setHasError(false);
-            }
-            else if (httpStatus == 406) {
-                setStatus('invalid');
-                setHasError(false);
-            }
-            else {
-                setHasError(true);
-            }
-        }
-        else {
-            setHasError(true);
-        }
-    }
-
-    function guessOnClick() {
-        if (number === '') {
-            return;
-        }
-        guess(number)
+    function onSubmit(code, addHistory) {
+        submit(code)
             .then(res => {
-                console.log(res);
-                handleGuessResult(res);
-                document.getElementsByClassName('input')[0].value = "";
-                setLastInput(number);
-                setNumber('');
-            })
-            // .catch(res => {
-            //     console.log(res);
-            //     handleGuessResult(res.response);
-            //     document.getElementsByClassName('input')[0].value = "";
-            //     setLastInput(number);
-            //     setNumber('');
-            // });
-    }
+                res = handleAXiosResponse(res);
 
-    function numberOnChange(value) {
-        setNumber(value);
+                if (res) {
+                    const httpStatus = res.status;
+                    if (httpStatus == 200) {
+                        const judge = res.data.status;
+                        console.log(res.data.status);
+                        addHistory(code, judge);
+                        // TODO: Add history
+                        setStatus({ valid: true, judge: judge });
+                        setHasError(false);
+                    }
+                    else if (httpStatus == 406) {
+                        setStatus({ valid: false });
+                        setHasError(false);
+                    }
+                    else {
+                        setHasError(true);
+                    }
+                }
+                else {
+                    setHasError(true);
+                }
+            });
     }
 
     return (
@@ -125,74 +97,38 @@ function App() {
         {(() => {
             if (hasStarted) {
                 return (
-                    <div className='game-wrapper'>
-                        <h1 className='title'>
-                            Guess a number bwtween 1 to 100
-                        </h1>
-                        <div className='input-wrapper'>
-                            <input
-                                type='text' className='input'
-                                onChange={(e) => numberOnChange(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key == 'Enter')
-                                        guessOnClick();
-                                }}
-                            />
-                            <button
-                                className='guess'
-                                onClick={() => guessOnClick()}
-                                disabled={ number === '' }
-                            >
-                                Guess!
-                            </button>
-                        </div>
-                        <h1 className='hint' style={ { color: (status === 'invalid' ? 'red' : 'black') } }>
-                        {
-                            (() => {
-                                switch (status) {
-                                    case 'smaller':
-                                        return 'Smaller than ' + lastInput;
-                                    case 'bigger':
-                                        return 'Bigger than ' + lastInput;
-                                    case 'invalid':
-                                        return lastInput + ' is not a valid number (1-100)!';
-                                    default:
-                                        return null;
-                                }
-                            })()
-                        }
-                        </h1>
-                    </div>
+                    <Game
+                        status={ status }
+                        onSubmit={ onSubmit }
+                    />
                 );
             }
             else {
                 if (hasWon) {
                     return (
-                        <div className='restart-wrapper'>
-                            <h1 className='restart-msg'>
-                                You won! The number is {lastInput}
-                            </h1>
-                            <button className='restart' onClick={() => restartOnClick()}>
-                                restart game
-                            </button>
-                        </div>
+                        <RestartPanel
+                            message={ 'You won! The number is ' }
+                            restartOnClick={ restartOnClick }
+                        />
                     );
                 }
                 else {
                     return (
-                        <div className='start-wrapper'>
-                            <h1 className='start-msg'>
-                                Click to start
-                            </h1>
-                            <button className='start' onClick={() => startOnClick()}>
-                                start game
-                            </button>
-                        </div>
+                        <StartPanel
+                            message='Click to start'
+                            startOnClick={ startOnClick }
+                        />
                     );
                 }
             }
         })()}
-        { hasError ? <h1 className='error'>{ errorMsg }</h1> : null }
+        {
+            hasError ? 
+            <h1 className='error'>
+                { errorMsg }
+            </h1> :
+            null 
+        }
         </div>
     );
 }
