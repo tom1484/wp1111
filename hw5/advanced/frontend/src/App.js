@@ -11,9 +11,9 @@ import RestartPanel from './components/RestartPanel';
 function App() {
     const [hasStarted, setHasStarted] = useState(false);
     const [hasWon, setHasWon] = useState(false);
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState({ valid: true });
 
-    // const [lastInput, setLastInput] = useState('');
+    const [answer, setAnswer] = useState('');
     const [hasError, setHasError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
@@ -73,8 +73,13 @@ function App() {
                     if (httpStatus == 200) {
                         const judge = res.data.status;
                         console.log(res.data.status);
+                        if (judge === '4A0B') {
+                            setHasStarted(false);
+                            setHasWon(true);
+                            setErrorMsg(false);
+                            setAnswer(code);
+                        }
                         addHistory(code, judge);
-                        // TODO: Add history
                         setStatus({ valid: true, judge: judge });
                         setHasError(false);
                     }
@@ -107,7 +112,7 @@ function App() {
                 if (hasWon) {
                     return (
                         <RestartPanel
-                            message={ 'You won! The number is ' }
+                            message={ 'You won! The number is ' + answer }
                             restartOnClick={ restartOnClick }
                         />
                     );

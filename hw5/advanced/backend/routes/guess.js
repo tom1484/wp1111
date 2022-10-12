@@ -6,7 +6,7 @@ const router = express.Router();
 function checkGuess(guess) {
     if (guess.length == 4) {
         for (let digit of guess) {
-            if (isNaN(digit)) {
+            if (isNaN(digit) || guess.split(digit).length > 2) {
                 return false;
             }
         }
@@ -18,12 +18,21 @@ function checkGuess(guess) {
 }
 
 router.get('/guess', (req, res) => {
-    const guess = req.query.code;
+    let guess = req.query.code;
     console.log(guess);
 
     if (checkGuess(guess)) {
-        const number = getNumber();
-        res.json({ status: '1A1B' });
+        let number = getNumber();
+        let A = 0, B = 0;
+        for (let i = 0; i < 4; i++) {
+            if (guess[i] === number[i]) {
+                A += 1;
+            }
+            else if (number.includes(guess[i])) {
+                B += 1;
+            }
+        }
+        res.json({ status: `${A}A${B}B` });
     }
     else {
         res.sendStatus(406);
