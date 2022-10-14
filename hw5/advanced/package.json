@@ -6,5 +6,8 @@
   "scripts": {
     "server": "cd backend && yarn server",
     "start": "cd frontend && yarn start"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.1"
   }
 }

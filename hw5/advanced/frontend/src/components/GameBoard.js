@@ -1,14 +1,20 @@
-import './Game.css';
+import './GameBoard.css';
 import React, { useState } from 'react'
 
 
-function Game({ status, onSubmit }) {
+function GameBoard({ gameMode, status, onGuess, onJudge }) {
     const [code, setCode] = useState('');
     const [history, setHistory] = useState([]);
 
 
     function submit() {
-        onSubmit(code, addHistory);
+        console.log(gameMode);
+        if (gameMode === 'GUESS') {
+            onGuess(code, addHistory);
+        }
+        else {
+            onJudge(code, addHistory);
+        }
         document.getElementsByClassName('input')[0].value = "";
         setCode('');
     }
@@ -21,10 +27,15 @@ function Game({ status, onSubmit }) {
     }
 
 
+    // if (gam)
     return (
         <div className='game-wrapper'>
             <h1 className='title' error={ (!status.valid).toString() }>
-                { status.valid ? 'Guess a distince 4-digit number' : 'Must be a distince 4-digit number!' }
+            {
+                gameMode === 'GUESS' ? 
+                (status.valid ? 'Guess a distinct 4-digit number' : 'Must be a distinct 4-digit number!') :
+                (status.valid ? `The server guessed ${status.guess}` : 'Not a valid judgement!')
+            }
             </h1>
             <div className='input-wrapper'>
                 <input
@@ -38,9 +49,9 @@ function Game({ status, onSubmit }) {
                     } }
                 />
                 <button
-                    className='guess'
+                    className='submit'
                     disabled={ code === '' }
-                    onClick={ onSubmit }
+                    onClick={ submit }
                 >
                     Submit
                 </button>
@@ -75,4 +86,4 @@ function Game({ status, onSubmit }) {
 }
 
 
-export default Game;
+export default GameBoard;

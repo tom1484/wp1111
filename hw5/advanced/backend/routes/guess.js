@@ -1,5 +1,5 @@
 import express from 'express'
-import { getNumber, genNumber } from '../core/getNumber'
+import { getNumber, genNumber, guessNewNumber, initialGuess } from '../core/getNumber'
 
 const router = express.Router(); 
 
@@ -17,9 +17,13 @@ function checkGuess(guess) {
     }
 }
 
+// function initialGuess() {
+//     return '1234';
+// }
+
 router.get('/guess', (req, res) => {
     let guess = req.query.code;
-    console.log(guess);
+    // console.log(guess);
 
     if (checkGuess(guess)) {
         let number = getNumber();
@@ -39,10 +43,25 @@ router.get('/guess', (req, res) => {
     } 
 });
 
+router.get('/judge', (req, res) => {
+    const judge = req.query.judge;
+    const guess = guessNewNumber(judge);
+
+    res.json({ guess: guess });
+});
+
 router.post('/start', (req, res) => {
-    genNumber();
-    // res.sendStatus(404);
-    res.json({ msg: 'started' });
+    const data = JSON.parse(Object.keys(req.body));
+    const gameMode = data.gameMode;
+    console.log(gameMode);
+    if (gameMode === 'GUESS') {
+        genNumber();
+        res.json({ msg: 'started' });
+    }
+    else {
+        const guess = initialGuess();
+        res.json({ msg: 'started', guess: guess });
+    }
 });
 
 router.post('/restart', (req, res) => {

@@ -5,9 +5,11 @@ const instance = axios.create({
     baseURL: 'http://localhost:4000/api/guess'
 });
 
-const startGame = async () => {
+const startGame = async (mode) => {
     try {
-        const res = await instance.post('/start');
+        const res = await instance.post('/start', {
+             gameMode: mode
+        });
         return res;
     }
     catch (e) {
@@ -15,7 +17,19 @@ const startGame = async () => {
     }
 };
 
-const submit = async (code) => {
+const judge = async (judge) => {
+    try {
+        const res = await instance.get('/judge', {
+            params: { judge }
+        })
+        return res;
+    }
+    catch(e) {
+        return e;
+    }
+}
+
+const guess = async (code) => {
     try {
         const res = await instance.get('/guess', {
             params: { code }
@@ -37,4 +51,4 @@ const restart = async () => {
     }
 };
 
-export { startGame, submit, restart };
+export { startGame, judge, guess, restart };

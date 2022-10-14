@@ -9,8 +9,11 @@ function StartPanel({ message, startOnClick }) {
             <h1 className='start-msg'>
                 { message }
             </h1>
-            <button className='start' onClick={ startOnClick }>
-                start game
+            <button className='start' onClick={ () => startOnClick('GUESS') }>
+                start guess
+            </button>
+            <button className='start' onClick={ () => startOnClick('JUDGE') }>
+                start judge
             </button>
         </div>
     );

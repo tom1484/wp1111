@@ -1,9 +1,9 @@
 import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { startGame, submit, restart } from './axios';
+import { startGame, judge, guess, restart } from './axios';
 
-import Game from './components/Game';
+import GameBoard from './components/GameBoard';
 import StartPanel from './components/StartPanel';
 import RestartPanel from './components/RestartPanel';
 
@@ -11,39 +11,50 @@ import RestartPanel from './components/RestartPanel';
 function App() {
     const [hasStarted, setHasStarted] = useState(false);
     const [hasWon, setHasWon] = useState(false);
-    const [status, setStatus] = useState({ valid: true });
+    const [gameMode, setGameMode] = useState('');
 
+    const [status, setStatus] = useState({ valid: true });
     const [answer, setAnswer] = useState('');
+
     const [hasError, setHasError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    function handleAXiosResponse(res) {
-        console.log(res);
+    function extractHttpResponse(res) {
         if (axios.isAxiosError(res)) {
-            if (res.code === 'ERR_NETWORK') {
-                setErrorMsg('AXIOS ERROR: ERR_NETWORK');
-                return null;
-            }
-            else if (res.code === 'ERR_BAD_REQUEST') {
-                setErrorMsg('HTTP ERROR ' + res.response.status);
-                return res.response;
-            }
+            return { axiosError: res.code, httpResponse: res.response }
         }
         else {
-            return res;
+            return { axiosError: 'SUCCESSFUL', httpResponse: res }
         }
     }
 
-    function startOnClick() {
-        startGame()
+    function startOnClick(mode) {
+        startGame(mode)
             .then(res => {
-                res = handleAXiosResponse(res);
-                if (res && res.status == 200) {
+                let err = false;
+                const { axiosError, httpResponse } = extractHttpResponse(res);
+                if (axiosError === 'SUCCESSFUL' && httpResponse.status == 200) {
+                    if (mode === 'JUDGE') {
+                        // const guess = httpResponse.data.guess;
+                        setStatus({ valid: true, guess: httpResponse.data.guess });
+                    }
                     setHasStarted(true);
-                    setHasError(false);
+                    setGameMode(mode);
                 }
                 else {
-                    setHasError(true);
+                    err = true;
+                    if (axiosError === 'ERR_NETWORK') {
+                        setErrorMsg('AXIOS ERROR: ERR_NETWORK');
+                    }
+                    else if (axiosError === 'ERR_BAD_REQUEST') {
+                        setErrorMsg(`HTTP ERROR ${httpResponse.status}`);
+                    }
+                    else {
+                        setErrorMsg('UNKNOWN ERROR');
+                    }
+                }
+                if (hasError ^ err) {
+                    setHasError(err);
                 }
             });
     }
@@ -51,48 +62,98 @@ function App() {
     function restartOnClick() {
         restart()
             .then(res => {
-                res = handleAXiosResponse(res);
-                if (res && res.status == 200) {
-                    setHasStarted(true);
+                let err = false;
+                const { axiosError, httpResponse } = extractHttpResponse(res);
+                console.log(axiosError)
+                if (axiosError === 'SUCCESSFUL' && httpResponse.status == 200) {
+                    setHasStarted(false);
                     setHasWon(false);
-                    setHasError(false);
                 }
                 else {
-                    setHasError(true);
+                    err = true;
+                    if (axiosError === 'ERR_NETWORK') {
+                        setErrorMsg('AXIOS ERROR: ERR_NETWORK');
+                    }
+                    else if (axiosError === 'ERR_BAD_REQUEST') {
+                        setErrorMsg(`HTTP ERROR ${httpResponse.status}`);
+                    }
+                    else {
+                        setErrorMsg('UNKNOWN ERROR');
+                    }
+                }
+                if (hasError ^ err) {
+                    setHasError(err);
                 }
             });
     }
 
-    function onSubmit(code, addHistory) {
-        submit(code)
+    function onJudge(code, addHistory) {
+        judge(code)
             .then(res => {
-                res = handleAXiosResponse(res);
-
-                if (res) {
-                    const httpStatus = res.status;
-                    if (httpStatus == 200) {
-                        const judge = res.data.status;
-                        console.log(res.data.status);
-                        if (judge === '4A0B') {
-                            setHasStarted(false);
-                            setHasWon(true);
-                            setErrorMsg(false);
-                            setAnswer(code);
-                        }
-                        addHistory(code, judge);
-                        setStatus({ valid: true, judge: judge });
-                        setHasError(false);
-                    }
-                    else if (httpStatus == 406) {
-                        setStatus({ valid: false });
-                        setHasError(false);
-                    }
-                    else {
-                        setHasError(true);
-                    }
+                let err = false;
+                const { axiosError, httpResponse } = extractHttpResponse(res);
+                console.log(axiosError);
+                if (axiosError === 'SUCCESSFUL' && httpResponse.status == 200) {
+                    const guess = httpResponse.data.guess;
+                    addHistory(status.guess, code);
+                    setStatus({ valid: true, guess: guess });
+                }
+                else if (axiosError === 'ERR_BAD_REQUEST' && httpResponse.status == 406) {
+                    setStatus({ valid: false });
                 }
                 else {
-                    setHasError(true);
+                    err = true;
+                    if (axiosError === 'ERR_NETWORK') {
+                        setErrorMsg('AXIOS ERROR: ERR_NETWORK');
+                    }
+                    else if (axiosError === 'ERR_BAD_REQUEST') {
+                        setErrorMsg(`HTTP ERROR ${httpResponse.status}`);
+                    }
+                    else {
+                        setErrorMsg('UNKNOWN ERROR');
+                    }
+                }
+                if (hasError ^ err) {
+                    setHasError(err);
+                }
+            });
+    }
+
+    function onGuess(code, addHistory) {
+        guess(code) 
+            .then(res => {
+                let err = false;
+                const { axiosError, httpResponse } = extractHttpResponse(res);
+                console.log(axiosError)
+                if (axiosError === 'SUCCESSFUL' && httpResponse.status == 200) {
+                    const judge = httpResponse.data.status;
+                    if (judge === '4A0B') {
+                        setHasStarted(false);
+                        setHasWon(true);
+                        setAnswer(code);
+                    }
+                    else {
+                        addHistory(code, judge);
+                        setStatus({ valid: true, judge: judge });
+                    }
+                }
+                else if (axiosError === 'ERR_BAD_REQUEST' && httpResponse.status == 406) {
+                    setStatus({ valid: false });
+                }
+                else {
+                    err = true;
+                    if (axiosError === 'ERR_NETWORK') {
+                        setErrorMsg('AXIOS ERROR: ERR_NETWORK');
+                    }
+                    else if (axiosError === 'ERR_BAD_REQUEST') {
+                        setErrorMsg(`HTTP ERROR ${httpResponse.status}`);
+                    }
+                    else {
+                        setErrorMsg('UNKNOWN ERROR');
+                    }
+                }
+                if (hasError ^ err) {
+                    setHasError(err);
                 }
             });
     }
@@ -102,9 +163,11 @@ function App() {
         {(() => {
             if (hasStarted) {
                 return (
-                    <Game
+                    <GameBoard
+                        gameMode={ gameMode }
                         status={ status }
-                        onSubmit={ onSubmit }
+                        onGuess={ onGuess }
+                        onJudge={ onJudge }
                     />
                 );
             }
