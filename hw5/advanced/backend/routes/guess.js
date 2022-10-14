@@ -17,6 +17,15 @@ function checkGuess(guess) {
     }
 }
 
+function checkJudge(judge) {
+    if (judge.length != 4) {
+        return false;
+    }
+    if (judge[1] !== 'A' || judge[3] !== 'B' || isNaN(judge[0]) || isNaN(judge[2])) {
+        return false;
+    }
+}
+
 // function initialGuess() {
 //     return '1234';
 // }
