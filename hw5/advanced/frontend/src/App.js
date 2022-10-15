@@ -83,7 +83,7 @@ function App() {
             });
     }
 
-    function sendJudge(judge, completeRound) {
+    function sendJudge(judge, completeRound, chances) {
         if (judge === '4A0B') {
             setGameStatus(GAME_LOST);
             setRestartMsg(`You lost! Server knows it's ${prevInput}`);
@@ -98,7 +98,12 @@ function App() {
                     const contradicted = httpResponse.data.contradicted;
                     if (!contradicted) {
                         const newGuess = httpResponse.data.guess;
-                        completeRound(true, newGuess, judge);
+                        const count = httpResponse.data.count;
+                        if (count == chances) {
+                            setGameStatus(GAME_WON);
+                            setRestartMsg(`You won!`);
+                        }
+                        completeRound(true, newGuess, judge, count);
                         setPrevInput(newGuess);
                     }
                     else {
@@ -107,7 +112,7 @@ function App() {
                     }
                 }
                 else if (axiosStatus == ERR_BAD_REQUEST && httpResponse.status == 406) {
-                    completeRound(false, null, null);
+                    completeRound(false, null, null, null);
                 }
                 else {
                     errorOccured = true;
@@ -117,24 +122,29 @@ function App() {
             });
     }
 
-    function sendGuess(guess, completeRound) {
+    function sendGuess(guess, completeRound, chances) {
         requestGuess(guess) 
             .then(result => {
                 const { axiosStatus, httpResponse } = result;
                 let errorOccured = false;
                 
                 if (axiosStatus == ACCEPTED && httpResponse.status == 200) {
-                    const judge = httpResponse.data.status;
+                    const judge = httpResponse.data.judge;
                     if (judge === '4A0B') {
                         setGameStatus(GAME_WON);
                         setRestartMsg(`You won! The number is ${guess}`);
                     }
                     else {
-                        completeRound(true, guess, judge);
+                        const count = httpResponse.data.count;
+                        if (count == chances) {
+                            setGameStatus(GAME_LOST);
+                            setRestartMsg(`You lost!`);
+                        }
+                        completeRound(true, guess, judge, count);
                     }
                 }
                 else if (axiosStatus == ERR_BAD_REQUEST && httpResponse.status == 406) {
-                    completeRound(false, null, null);
+                    completeRound(false, null, null, null);
                 }
                 else {
                     errorOccured = true;

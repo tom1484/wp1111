@@ -5,10 +5,14 @@ import React, { useState, useEffect, useRef } from 'react'
 export const MODE_GUESS = 0;
 export const MODE_JUDGE = 1;
 
+const guessChances = 8;
+const judgeChances = 6;
+
 
 function GameBoard({ gameMode, sendGuess, sendJudge }) {
     const [input, setInput] = useState('');
     const [valid, setValid] = useState(true);
+    const [chances, setChances] = useState(0);
     const [serverGuess, setServerGuess] = useState('');
     const [history, setHistory] = useState([]);
 
@@ -17,9 +21,10 @@ function GameBoard({ gameMode, sendGuess, sendJudge }) {
 
     
     useEffect(() => {
+        // keep sending judges until successfully initiated
         const initiate = () => {
-            if (gameMode == MODE_JUDGE && !initiatedRef.current) {
-                sendJudge('0A0B', completeRound)
+            if (!initiatedRef.current) {
+                sendJudge('0A0B', completeRound, judgeChances)
                     .then(() => {
                         if (!initiatedRef.current) {
                             initiate();
@@ -27,7 +32,12 @@ function GameBoard({ gameMode, sendGuess, sendJudge }) {
                     });
             }
         }
-        initiate();
+        if (gameMode == MODE_JUDGE) {
+            initiate();
+        }
+        if (gameMode == MODE_GUESS) {
+            setChances(guessChances);
+        }
         return () => { initiatedRef.current = false }
     }, []);
 
@@ -35,17 +45,19 @@ function GameBoard({ gameMode, sendGuess, sendJudge }) {
     function inputSubmit() {
         switch (gameMode) {
             case MODE_GUESS:
-                sendGuess(input, completeRound);
+                sendGuess(input, completeRound, guessChances);
                 break;
             case MODE_JUDGE:
-                sendJudge(input, completeRound);
+                if (initiatedRef.current) {
+                    sendJudge(input, completeRound, judgeChances);
+                }
                 break;
         }
         inputRef.current.value = "";
         setInput('');
     }
 
-    function completeRound(inputValid, guess, judge) {
+    function completeRound(inputValid, guess, judge, count) {
         if (inputValid) {
             switch (gameMode) {
                 case MODE_JUDGE:
@@ -59,12 +71,14 @@ function GameBoard({ gameMode, sendGuess, sendJudge }) {
                     else {
                         initiatedRef.current = true;
                     }
+                    setChances(judgeChances - count);
                     break;
                 case MODE_GUESS:
                     setHistory([
                         { guess: guess, result: judge }, 
                         ...history
                     ]);
+                    setChances(guessChances - count);
                     break;
             }
             setValid(true);
@@ -79,8 +93,8 @@ function GameBoard({ gameMode, sendGuess, sendJudge }) {
             <h1 className='title' error={ (!valid).toString() }>
             {
                 gameMode == MODE_GUESS ? 
-                (valid ? 'Guess a distinct 4-digit number' : 'Must be a distinct 4-digit number!') :
-                (valid ? `The server guessed ${serverGuess}` : 'Not a valid judgement!')
+                (valid ? `Guess a distinct 4-digit number (${chances} more chances)` : 'Must be a distinct 4-digit number!') :
+                (valid ? `The server guessed ${serverGuess} (${chances} more chances)` : `Not a valid judgement! (${serverGuess})`)
             }
             </h1>
             <div className='input-wrapper'>

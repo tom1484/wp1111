@@ -1,5 +1,5 @@
 import express from 'express'
-import { getNumber, genNumber, getGuess, initializeCandidates, reset } from '../core/getNumber'
+import { getNumber, genNumber, getGuess, initializeCandidates, reset, getCount } from '../core/getNumber'
 
 const router = express.Router(); 
 
@@ -46,25 +46,21 @@ router.get('/guess', (req, res) => {
                 B += 1;
             }
         }
-        res.json({ status: `${A}A${B}B` });
+        const count = getCount();
+        res.json({ judge: `${A}A${B}B`, count: count });
     }
     else {
         res.sendStatus(406);
     } 
 });
 
-var c = 0;
 router.get('/judge', (req, res) => {
-    if (c < 1000) {
-        c += 1;
-        res.sendStatus(404);
-        return;
-    }
     const judge = req.query.judge;
     if (checkJudge(judge)) {
         const guess = getGuess(judge);
         if (guess) {
-            res.json({ contradicted: false, guess: guess });
+            const count = getCount();
+            res.json({ contradicted: false, guess: guess, count: count });
         }
         else {
             res.json({ contradicted: true });

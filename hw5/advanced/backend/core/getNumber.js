@@ -1,9 +1,14 @@
 var number;
 
 var candidates;
-var guessCount;
+var count;
+
+export const getCount = () => {
+    return count;
+}
 
 export const getNumber = () => {
+    count += 1;
     return number;
 }
 
@@ -22,7 +27,7 @@ export const genNumber = () => {
 
 function getCandidate() {
     const idx = Math.floor(Math.random() * (candidates.size - 0.0001));
-    guessCount += 1;
+    count += 1;
     return Array.from(candidates.keys())[idx];
 }
 
@@ -49,7 +54,7 @@ function deleteCandidate(judge) {
 }
 
 export const getGuess = (judge) => {
-    if (guessCount > 0) {
+    if (count > 0) {
         deleteCandidate(judge);
     }
     number = getCandidate();
@@ -81,7 +86,7 @@ export const initializeCandidates = () => {
 export const reset = () => {
     number = null;
     candidates = null;
-    guessCount = 0;
+    count = 0;
 }
 
 // export { getNumber, genNumber, guessNewNumber, initialGuess };
