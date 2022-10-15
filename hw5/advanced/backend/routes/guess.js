@@ -1,5 +1,5 @@
 import express from 'express'
-import { getNumber, genNumber, guessNewNumber, initialGuess } from '../core/getNumber'
+import { getNumber, genNumber, getGuess, initializeCandidates, reset } from '../core/getNumber'
 
 const router = express.Router(); 
 
@@ -24,15 +24,16 @@ function checkJudge(judge) {
     if (judge[1] !== 'A' || judge[3] !== 'B' || isNaN(judge[0]) || isNaN(judge[2])) {
         return false;
     }
+    const A = parseInt(judge[0]);
+    const B = parseInt(judge[2]);
+    if (A + B > 4) {
+        return false;
+    }
+    return true;
 }
-
-// function initialGuess() {
-//     return '1234';
-// }
 
 router.get('/guess', (req, res) => {
     let guess = req.query.code;
-    // console.log(guess);
 
     if (checkGuess(guess)) {
         let number = getNumber();
@@ -52,30 +53,44 @@ router.get('/guess', (req, res) => {
     } 
 });
 
+var c = 0;
 router.get('/judge', (req, res) => {
+    if (c < 1000) {
+        c += 1;
+        res.sendStatus(404);
+        return;
+    }
     const judge = req.query.judge;
-    const guess = guessNewNumber(judge);
-
-    res.json({ guess: guess });
+    if (checkJudge(judge)) {
+        const guess = getGuess(judge);
+        if (guess) {
+            res.json({ contradicted: false, guess: guess });
+        }
+        else {
+            res.json({ contradicted: true });
+        }
+    }
+    else {
+        res.sendStatus(406);
+    }
 });
 
 router.post('/start', (req, res) => {
-    const data = JSON.parse(Object.keys(req.body));
-    const gameMode = data.gameMode;
-    console.log(gameMode);
-    if (gameMode === 'GUESS') {
-        genNumber();
-        res.json({ msg: 'started' });
+    reset();
+    console.log("START");
+    const gameMode = JSON.parse(Object.keys(req.body)).gameMode
+    switch (gameMode) {
+        case 'GUESS':
+            genNumber();
+            break;
+        case 'JUDGE':
+            initializeCandidates();
+            break;
     }
-    else {
-        const guess = initialGuess();
-        res.json({ msg: 'started', guess: guess });
-    }
+    res.json({ msg: 'started' });
 });
 
 router.post('/restart', (req, res) => {
-    genNumber();
-    // res.sendStatus(404);
     res.json({ msg: 'restarted' });
 });
 

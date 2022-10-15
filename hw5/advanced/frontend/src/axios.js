@@ -1,54 +1,71 @@
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 
 
-const instance = axios.create({
+export const ACCEPTED        = 0;
+export const ERR_BAD_REQUEST = 1;
+export const ERR_NETWORK     = 2;
+export const ERR_UNKNOWN     = 3;
+
+const requestSender = axios.create({
     baseURL: 'http://localhost:4000/api/guess'
 });
 
-const startGame = async (mode) => {
-    try {
-        const res = await instance.post('/start', {
-             gameMode: mode
-        });
-        return res;
-    }
-    catch (e) {
-        return e;
-    }
-};
-
-const judge = async (judge) => {
-    try {
-        const res = await instance.get('/judge', {
-            params: { judge }
-        })
-        return res;
-    }
-    catch(e) {
-        return e;
+function filterError(axiosResponse) {
+    const errorCode = axiosResponse.code;
+    switch (errorCode) {
+        case 'ERR_BAD_REQUEST':
+            return { axiosStatus: ERR_BAD_REQUEST, httpResponse: axiosResponse.response };
+        case 'ERR_NETWORK':
+            return { axiosStatus: ERR_NETWORK, httpResponse: null };
+        default:
+            return { axiosStatus: ERR_UNKNOWN, httpResponse: null };
     }
 }
 
-const guess = async (code) => {
+export const requestStartGame = async (mode) => {
     try {
-        const res = await instance.get('/guess', {
+        const response = await requestSender.post('/start', {
+             gameMode: mode
+        });
+        return { axiosStatus: ACCEPTED, httpResponse: response };
+    }
+    catch (e) {
+        return filterError(e);
+    }
+};
+
+export const requestJudge = async (judge) => {
+    try {
+        const response = await requestSender.get('/judge', {
+            params: { judge }
+        })
+        return { axiosStatus: ACCEPTED, httpResponse: response };
+    }
+    catch(e) {
+        return filterError(e);
+    }
+}
+
+export const requestGuess = async (code) => {
+    try {
+        const response = await requestSender.get('/guess', {
             params: { code }
         });
-        return res;
+        return { axiosStatus: ACCEPTED, httpResponse: response };
     }
     catch (e) {
-        return e;
+        return filterError(e);
     }
 };
 
-const restart = async () => {
+export const requestRestartGame = async () => {
     try {
-        const res = await instance.post('/restart');
-        return res;
+        const response = await requestSender.post('/restart');
+        return { axiosStatus: ACCEPTED, httpResponse: response };
     }
     catch (e) {
-        return e;
+        return filterError(e);
     }
 };
 
-export { startGame, judge, guess, restart };
+// export { startGame, judge, guess, restart };

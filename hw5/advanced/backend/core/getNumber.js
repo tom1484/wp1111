@@ -1,11 +1,13 @@
 var number;
-var candidates;
 
-const getNumber = () => {
+var candidates;
+var guessCount;
+
+export const getNumber = () => {
     return number;
 }
 
-const genNumber = () => {
+export const genNumber = () => {
     number = '';
     for (let i = 0; i < 4; ) {
         let digit = Math.floor(Math.random() * 9.99).toString();
@@ -15,10 +17,12 @@ const genNumber = () => {
         number += digit;
         i++;
     }
+    console.log(number);
 }
 
 function getCandidate() {
     const idx = Math.floor(Math.random() * (candidates.size - 0.0001));
+    guessCount += 1;
     return Array.from(candidates.keys())[idx];
 }
 
@@ -38,22 +42,22 @@ function getMatch(base) {
 function deleteCandidate(judge) {
     for (let k of candidates.keys()) {
         const match = getMatch(k);
-        if (k === '1234') {
-            console.log(`${number} ${match}`);
-        }
         if (match != judge) {
             candidates.delete(k);
         }
     }
 }
 
-const guessNewNumber = (judge) => {
-    deleteCandidate(judge);
+export const getGuess = (judge) => {
+    if (guessCount > 0) {
+        deleteCandidate(judge);
+    }
     number = getCandidate();
+    console.log(number);
     return number;
 }
 
-const initialGuess = () => {
+export const initializeCandidates = () => {
     let arr = Array.from(new Array(10000).keys()).map(String);
     for (let i = 0; i < arr.length; i++) {
         while (arr[i].length < 4) {
@@ -72,9 +76,12 @@ const initialGuess = () => {
             candidates.delete(k);
         }
     }
-
-    number = getCandidate();
-    return number;
 }
 
-export { getNumber, genNumber, guessNewNumber, initialGuess };
+export const reset = () => {
+    number = null;
+    candidates = null;
+    guessCount = 0;
+}
+
+// export { getNumber, genNumber, guessNewNumber, initialGuess };

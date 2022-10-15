@@ -1,57 +1,104 @@
 import './GameBoard.css';
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 
-function GameBoard({ gameMode, status, onGuess, onJudge }) {
-    const [code, setCode] = useState('');
+export const MODE_GUESS = 0;
+export const MODE_JUDGE = 1;
+
+
+function GameBoard({ gameMode, sendGuess, sendJudge }) {
+    const [input, setInput] = useState('');
+    const [valid, setValid] = useState(true);
+    const [serverGuess, setServerGuess] = useState('');
     const [history, setHistory] = useState([]);
 
+    const inputRef = useRef();
+    const initiatedRef = useRef(false);
 
-    function submit() {
-        console.log(gameMode);
-        if (gameMode === 'GUESS') {
-            onGuess(code, addHistory);
+    
+    useEffect(() => {
+        const initiate = () => {
+            if (gameMode == MODE_JUDGE && !initiatedRef.current) {
+                sendJudge('0A0B', completeRound)
+                    .then(() => {
+                        if (!initiatedRef.current) {
+                            initiate();
+                        }
+                    });
+            }
+        }
+        initiate();
+        return () => { initiatedRef.current = false }
+    }, []);
+
+
+    function inputSubmit() {
+        switch (gameMode) {
+            case MODE_GUESS:
+                sendGuess(input, completeRound);
+                break;
+            case MODE_JUDGE:
+                sendJudge(input, completeRound);
+                break;
+        }
+        inputRef.current.value = "";
+        setInput('');
+    }
+
+    function completeRound(inputValid, guess, judge) {
+        if (inputValid) {
+            switch (gameMode) {
+                case MODE_JUDGE:
+                    setServerGuess(guess);
+                    if (initiatedRef.current) {
+                        setHistory([
+                            { guess: serverGuess, result: input }, 
+                            ...history
+                        ]);
+                    }
+                    else {
+                        initiatedRef.current = true;
+                    }
+                    break;
+                case MODE_GUESS:
+                    setHistory([
+                        { guess: guess, result: judge }, 
+                        ...history
+                    ]);
+                    break;
+            }
+            setValid(true);
         }
         else {
-            onJudge(code, addHistory);
+            setValid(false);
         }
-        document.getElementsByClassName('input')[0].value = "";
-        setCode('');
     }
 
-    function addHistory(guess, result) {
-        setHistory([
-            { guess: guess, result: result }, 
-            ...history
-        ]);
-    }
-
-
-    // if (gam)
     return (
         <div className='game-wrapper'>
-            <h1 className='title' error={ (!status.valid).toString() }>
+            <h1 className='title' error={ (!valid).toString() }>
             {
-                gameMode === 'GUESS' ? 
-                (status.valid ? 'Guess a distinct 4-digit number' : 'Must be a distinct 4-digit number!') :
-                (status.valid ? `The server guessed ${status.guess}` : 'Not a valid judgement!')
+                gameMode == MODE_GUESS ? 
+                (valid ? 'Guess a distinct 4-digit number' : 'Must be a distinct 4-digit number!') :
+                (valid ? `The server guessed ${serverGuess}` : 'Not a valid judgement!')
             }
             </h1>
             <div className='input-wrapper'>
                 <input
                     type='text'
                     className='input'
-                    onChange={ (e) => setCode(e.target.value) }
+                    ref={ inputRef }
+                    onChange={ (e) => setInput(e.target.value) }
                     onKeyDown={ (e) => {
-                        if (e.key == 'Enter' && code !== '') {
-                            submit();
+                        if (e.key == 'Enter' && input !== '') {
+                            inputSubmit();
                         }
                     } }
                 />
                 <button
                     className='submit'
-                    disabled={ code === '' }
-                    onClick={ submit }
+                    disabled={ input === '' }
+                    onClick={ inputSubmit }
                 >
                     Submit
                 </button>

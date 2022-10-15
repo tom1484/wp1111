@@ -1,4 +1,4 @@
-import './StartPanel.css';
+import './RestartPanel.css';
 import React, { useState } from 'react'
 
 
