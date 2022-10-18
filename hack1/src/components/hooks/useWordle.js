@@ -41,23 +41,79 @@ const useWordle = (solution) => {
         }
         // (3) Press Enter, store curGuess to guesses, reset curGuess and update parameters .
     
-        // console.log("Press Enter!!!! Store and reset curGuess!");
+        console.log("Press Enter!!!! Store and reset curGuess!");
         // TODO 4: Check each wordbox's color in `curGuess` and update `guess`, `turn` and `curGuess`
         // Hint: check green first, and then check yellow.
+        let solutionCharSet = solution.split('');
+        let curGuessCharSet = curGuess.split('');
+        for (const [index, char] of solutionCharSet.entries()) {
+            solutionCharSet[index] = char.toLowerCase();
+        }
+        for (const [index, char] of curGuessCharSet.entries()) {
+            curGuessCharSet[index] = char.toLowerCase();
+        }
+
+        let guess = [...Array(5)];
+        let curGreened = [...Array(5)];
+
+        for (const [index, char] of curGuessCharSet.entries()) {
+            if (char === solutionCharSet[index]) {
+                guess[index] = {char: char, color: 'green'};
+                solutionCharSet[index] = '';
+                curGreened[index] = true;
+            }
+            else {
+                curGreened[index] = false;
+            }
+        }
+
+        for (const [index, char] of curGuessCharSet.entries()) {
+            if (curGreened[index]) {
+                continue;
+            }
+
+            let contains = false;
+            for (const [sIndex, sChar] of solutionCharSet.entries()) {
+                if (char === sChar) {
+                    contains = true;
+                    solutionCharSet[sIndex] = '';
+                    break;
+                }
+            }
+            if (contains) {
+                guess[index] = {char: char, color: 'yellow'};
+                solutionCharSet[index] = '';
+            }
+            else {
+                guess[index] = {char: char, color: 'grey'};
+            }
+        }
 
         // add the formatted guess generated into guesses.
-        
+        guesses[turn] = guess;
         // turn += 1
+        setTurn(turn + 1);
         
         // set curGuess to default
-
+        setCurGuess("");
 
         // TODO 5: update parameters, check each char usage and show in `Keyboard` and reset `curGuess`.
         // 5-1) check if curGuess === solution, if true, set `isCorrect` to true.
-        
+        if (curGuess === solution) {
+            setIsCorrect(true);
+        }
         
         // 5-2) usedChars update
-        
+        for (const {char, color} of guess) {
+            // const  = letter;
+            console.log(usedChars[char]);
+            if (color === 'green') {
+                usedChars[char] = 'green';
+            }
+            else if (color === 'yellow' && !usedChars[char]) {
+                usedChars[char] = 'yellow';
+            }
+        }
         
     }
 

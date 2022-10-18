@@ -27,7 +27,9 @@ const Wordle = ({ solution }) => {
                     // TODO 6: Implementation for the result of the game
                     // Hint: Add some conditions in `useEffect` to maintain `result`, `gameOver`, `win`.
                     // Result format: "You win!!!!"
-                    
+                    setResult("You win!!!!");
+                    setGameOver(true);
+                    setWin(true);
                 })
             }
             else if (turn > 5) {
@@ -35,7 +37,9 @@ const Wordle = ({ solution }) => {
                     // TODO 6: Implementation for the result of the game
                     // Hint: Add some conditions in `useEffect` to maintain `result`, `gameOver`, `win`.
                     // Result format: "You lose!!!! The answer is windy." (If the solution is 'windy')
-                    
+                    setResult(`You lose!!!! The answer is ${solution}.`);
+                    setGameOver(true);
+                    setWin(false);
                 })
             }
         return () => window.removeEventListener('keyup', handleKeyup);
@@ -45,9 +49,16 @@ const Wordle = ({ solution }) => {
     return (
         <div className='Wordle-container'>
             {/* TODO 6: Implementation for the result of the game */}
-            
+            {
+                (() => {
+                    switch () {
+                        
+                    }
+                })();
+            }
             
             {/* TODO 2-1:  call `Board` and pass `turn`, `guesses`, `curGuess` into it  */}
+            <Board turn={turn} guesses={guesses} curGuess={curGuess}></Board>
             
             
             {/* TODO 1-1: call `Keyboard` and pass `usedChars` into it. */}

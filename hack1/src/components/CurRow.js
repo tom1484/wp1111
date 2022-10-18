@@ -11,19 +11,29 @@ import React from 'react';
 
 
 const CurRow = ({ curGuess, rowIdx }) => {
-    let letters = curGuess.split('');
-
     return (
         <div className='Row-container'>
             {/* TODO 3: Row Implementation -- CurRow */}
             
             {/* ↓ Default row, you should modify it. ↓ */}
             <div className='Row-wrapper current'>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
-                <div className='Row-wordbox'></div>
+                {
+                    [...Array(5)].map((_, index) => {
+                        const id = `${rowIdx}-${index}`;
+                        if (index < curGuess.length) {
+                            return (
+                                <div className={`Row-wordbox filled`} id={id} key={id}>
+                                    {curGuess[index]}
+                                </div>
+                            );
+                        }
+                        else {
+                            return (
+                                <div className='Row-wordbox' id={id} key={id}></div>
+                            );
+                        }
+                    })
+                }
             </div>
             {/* ↑ Default row, you should modify it. ↑ */}
         </div>
