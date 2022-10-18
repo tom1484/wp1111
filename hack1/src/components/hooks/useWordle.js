@@ -105,7 +105,6 @@ const useWordle = (solution) => {
         // 5-2) usedChars update
         for (const {char, color} of guess) {
             // const  = letter;
-            console.log(usedChars[char]);
             if (color === 'green') {
                 usedChars[char] = 'green';
             }
