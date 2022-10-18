@@ -54,21 +54,21 @@ const useWordle = (solution) => {
         }
 
         let guess = [...Array(5)];
-        let curGreened = [...Array(5)];
+        let greened = [...Array(5)];
 
         for (const [index, char] of curGuessCharSet.entries()) {
             if (char === solutionCharSet[index]) {
                 guess[index] = {char: char, color: 'green'};
                 solutionCharSet[index] = '';
-                curGreened[index] = true;
+                greened[index] = true;
             }
             else {
-                curGreened[index] = false;
+                greened[index] = false;
             }
         }
 
         for (const [index, char] of curGuessCharSet.entries()) {
-            if (curGreened[index]) {
+            if (greened[index]) {
                 continue;
             }
 
@@ -82,7 +82,6 @@ const useWordle = (solution) => {
             }
             if (contains) {
                 guess[index] = {char: char, color: 'yellow'};
-                solutionCharSet[index] = '';
             }
             else {
                 guess[index] = {char: char, color: 'grey'};

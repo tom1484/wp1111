@@ -51,10 +51,18 @@ const Wordle = ({ solution }) => {
             {/* TODO 6: Implementation for the result of the game */}
             {
                 (() => {
-                    switch () {
-                        
+                    if (!gameOver) {
+                        return <div className='Wordle-lose Hidden'>{result}</div>
                     }
-                })();
+                    else {
+                        if (win) {
+                            return <div className='Wordle-win'>{result}</div>
+                        }
+                        else {
+                            return <div className='Wordle-lose'>{result}</div>
+                        }
+                    }
+                })()
             }
             
             {/* TODO 2-1:  call `Board` and pass `turn`, `guesses`, `curGuess` into it  */}
