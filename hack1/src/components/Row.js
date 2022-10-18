@@ -17,8 +17,9 @@ const Row = ({ guess, rowIdx }) => {
                 <div className='Row-wrapper'>
                     {
                         guess.map((letter, index) => {
+                            let id = `${rowIdx}-${index}`;
                             return (
-                                <div className={`Row-wordbox ${letter.color}`} id={`${index}-0`} key={`${index}-0`}>
+                                <div className={`Row-wordbox ${letter.color}`} id={id} key={id}>
                                     {letter.char}
                                 </div>
                             )
