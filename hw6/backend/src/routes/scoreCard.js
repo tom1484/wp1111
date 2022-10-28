@@ -9,12 +9,17 @@ const mongooseErrHandler = (res) => {
 }
 
 router.delete("/cards", (req, res) => {
-    console.log("DELETE");
-    res.status(200);
+    ScoreCard.deleteMany({}, (err) => {
+        if (err) mongooseErrHandler(res);
+
+        res.status(200).json({
+            message: 'Database cleared', 
+        });
+    });
 });
 
 router.post("/card", (req, res) => {
-    const {name, subject, score} = req.body;
+    const { name, subject, score } = req.body;
 
     ScoreCard.find({ name: name, subject: subject }, (err, scoreCards) => {
         if (err) mongooseErrHandler(res);
@@ -28,36 +33,50 @@ router.post("/card", (req, res) => {
             scoreCard.save((err) => {
                 if (err) mongooseErrHandler(res);
                 res.status(200).json({
-                    message: "Inserted", 
+                    message: `Adding (${name}, ${subject}, ${score})`, 
                     card: scoreCard, 
                 });
             });
         }
         else {
             let scoreCard = scoreCards[0];
-            if (scoreCard.score != score) {
-                scoreCard.score = score;
-                scoreCard.save((err) => {
-                    if (err) mongooseErrHandler(res);
-                    res.status(200).json({
-                        message: "Updated", 
-                        card: scoreCard, 
-                    });
-                });
-            }
-            else {
+            scoreCard.score = score;
+            scoreCard.save((err) => {
+                if (err) mongooseErrHandler(res);
                 res.status(200).json({
-                    message: "No need to update", 
+                    message: `Updating (${name}, ${subject}, ${score})`, 
                     card: scoreCard, 
                 });
-            }
+            });
         }
     });
 });
 
 router.get("/cards", (req, res) => {
-    console.log("GET");
-    res.status(200);
+    const { type, queryString } = req.query;
+
+    let query = {};
+    if (type === 'name') query.name = queryString;
+    else if (type === 'subject') query.subject = queryString;
+    
+    ScoreCard.find(query, (err, scoreCards) => {
+        if (err) mongooseErrHandler(res);
+
+        if (scoreCards.length == 0) {
+            res.status(200).json({
+                message: `QueryType (QueryString) not found!`, 
+            });
+        }
+        else {
+            const messages = scoreCards.map((scoreCard) => {
+                let { name, subject, score } = scoreCard;
+                return `Found card with ${type}: (${name}, ${subject}, ${score})`;
+            });
+            res.status(200).json({
+                messages: messages, 
+            });
+        }
+    });
 });
 
 export default router;
