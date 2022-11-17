@@ -3,9 +3,8 @@ import mongoose from 'mongoose';
 
 const MessageSchema = mongoose.Schema({
     name: String,
-    subject: String,
-    score: Number,
+    message: String,
 });
-const Message = mongoose.model('User', MessageSchema);
+const Message = mongoose.model("Message", MessageSchema);
 
 export default Message;
