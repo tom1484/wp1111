@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from 'react'
 import { w3cwebsocket as W3CWebSocket } from "websocket"
 
-const useChat = () => {
-    const [user, setUser] = useState("")
+const useChat = (initialUser) => {
+    const [user, setUser] = useState(initialUser)
     const [roomList, setRoomList] = useState([])
     const [activeRoom, setActiveRoom] = useState(0)
     const [status, setStatus] = useState({})
@@ -133,11 +133,16 @@ const useChat = () => {
         })
     }
 
+    const showStatus = (type, msg) => {
+        setStatus({ type: type, msg: msg });
+    }
+
     return {
-        user, login,
+        user, setUser, login,
         roomList, openRoom, removeRoom,
         activeRoom, changeRoom,
         status, sendMessage, clearMessages,
+        showStatus,
         chatboxBottomRef,
     }
 }

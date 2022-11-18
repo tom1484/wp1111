@@ -52,13 +52,27 @@
   padding-right: 6px;
 }
 
-.App-message {
+.App-message-left {
   background: #77777740;
   border-radius: 5px;
   width: fit-content;
 
   padding-left: 6px;
   padding-right: 6px;
+
+  margin: 0;
+}
+
+.App-message-right {
+  background: #77777740;
+  border-radius: 5px;
+  width: fit-content;
+
+  padding-left: 6px;
+  padding-right: 6px;
+
+  margin: auto;
+  margin-right: 0;
 }
 
 .App-messages-container {
