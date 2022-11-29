@@ -30,11 +30,21 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
     const storeComment = async () => {
         await instance.post('createComment/', {
             // TODO Part III-3-b: store the comment to the DB
+            restaurantId: parseInt(restaurantId),
+            name: name,
+            rating: rating,
+            content: content
         })
     }
 
     const submitComment = () => {
         // TODO Part III-3-b: submit a comment and reset input fields
+        if (name !== '' && rating > 0 && content !== '') {
+            storeComment();
+            setName('')
+            setRating(0)
+            setContent('')
+        }
     }
     return (
         <div className='commentContainer'>
@@ -59,8 +69,9 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
 
             <div className='comments'>
                 {
-                    comments.map((comment) => (
-                        <div className='comment' key={comment.name}>
+                    comments.map((comment, idx) => (
+                        // <div className='comment' key={comment.name}>
+                        <div className='comment' key={idx}>
                             <div className='title'>
                                 <div className='info'>
                                     <p className='name'> {comment.name} </p>
@@ -73,7 +84,7 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
                 }
 
             </div>
-        </div>
+        </div >
     )
 }
 export default Comment

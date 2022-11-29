@@ -29,10 +29,10 @@ exports.GetSearch = async (req, res) => {
     // TODO Part I-3-a: find the information to all restaurants
     console.log("search")
     Info.find({}).exec().then(restaurants => {
-        console.log("Got restaurants")
+        // console.log("Got restaurants")
         res.status(200).send({ message: 'success', contents: restaurants })
     }).catch(e => {
-        console.log("Failed to load restaurants")
+        // console.log("Failed to load restaurants")
         res.status(403).send({ message: 'error', contents: [] })
     })
 
@@ -44,6 +44,18 @@ exports.GetInfo = async (req, res) => {
     /*******    NOTE: DO NOT MODIFY   *******/
     const id = req.query.id
     /****************************************/
+
+    // console.log(id)
+    Info.find({ id: id }).exec().then(restaurant => {
+        // console.log(`Got restaurant ${id}`)
+        res.status(200).send({
+            message: 'success',
+            contents: restaurant
+        })
+    }).catch(e => {
+        console.log("Failed to load restaurants")
+        res.status(403).send({ message: 'error', contents: [] })
+    })
 
     // NOTE USE THE FOLLOWING FORMAT. Send type should be 
     // if success:

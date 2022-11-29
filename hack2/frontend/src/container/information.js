@@ -13,28 +13,54 @@ import '../css/restaurantPage.css'
 const Information = ({ info, rating }) => {
 
     const getTag = (tags) => {
-        return (
-            <>
-                {/* TODO Part III-2-a render tags */}
-            </>
-        )
+        tags = tags.map(tag => {
+            return (
+                <div className='tag' key={tag}>
+                    {tag}
+                </div>
+            )
+        })
+
+        return tags
     }
     const getPriceTag = (price) => {
         let priceText = ""
         for (let i = 0; i < price; i++)
             priceText += "$"
         return (
-            <>
-                {/* TODO Part III-2-a render price tags; hint: convert price number to dollar signs first */}
-            </>
+            <div className='tag' key={priceText}>
+                {priceText}
+            </div>
         )
     }
 
     const getBusiness = (time) => {
-        
+        const dayList = ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"]
         return (
             <div className='businessTime'>
-                {/* TODO Part III-2-c: render business time for each day*/}
+                {
+                    dayList.map(day => {
+                        if (time["All"]) {
+                            return <div className='singleDay' key={day}>
+                                <div className='day'>{day}</div>
+                                <div className='time'>{time["All"]}</div>
+                            </div>
+                        }
+                        else {
+                            if (time[day]) {
+                                return <div className='singleDay' key={day}>
+                                    <div className='day'>{day}</div>
+                                    <div className='time'>{time[day]}</div>
+                                </div>
+                            } else {
+                                return <div className='singleDay' key={day}>
+                                    <div className='day'>{day}</div>
+                                    <div className='time'>Closed</div>
+                                </div>
+                            }
+                        }
+                    })
+                }
             </div>
         )
     }

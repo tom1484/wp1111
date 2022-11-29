@@ -39,10 +39,6 @@ const NavBar = () => {
         // TODO Part I-1: navigation to search page
         // See README for hint
         // FIXME - Modify below
-        // console.log(priceFilter)
-        // console.log(mealFilter)
-        // console.log(typeFilter)
-        // console.log(sortMethod)
         navigate('/search', {
             state: {
                 priceFilter: priceFilter,

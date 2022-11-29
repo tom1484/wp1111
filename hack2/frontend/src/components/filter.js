@@ -34,7 +34,20 @@ const Filter = ({ priceFilter, setPriceFilter, mealFilter, setMealFilter, typeFi
 
     const modifyFilter = (key, filter) => {
         // TODO Part II-1: change filter state on clicking the pertaining checkboxes
-        return filter
+        let newFilter = [];
+        let contained = false;
+        for (const k of filter) {
+            if (k !== key) {
+                newFilter.push(k)
+            } else {
+                contained = true;
+            }
+        }
+        if (!contained) {
+            newFilter.push(key)
+        }
+        console.log(newFilter)
+        return newFilter
     }
 
     const modifyPriceFilter = (key) => {
