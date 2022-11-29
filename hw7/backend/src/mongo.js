@@ -8,8 +8,8 @@ export default {
             console.error("Missing MONGO_URL");
             process.exit(1);
         }
-        mongoose.connect(process.env.MONGO_URL, {
-            // mongoose.connect("mongodb://127.0.0.1:27017/hw7", {
+        // mongoose.connect(process.env.MONGO_URL, {
+            mongoose.connect("mongodb://localhost:27017/hw7", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             connectTimeoutMS: 5000,
