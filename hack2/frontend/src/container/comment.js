@@ -17,7 +17,7 @@ const instance = axios.create({
     baseURL: 'http://localhost:4000/api'
 })
 
-const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
+const Comment = ({ restaurantId, comments, setComments, setLoad, getComments }) => {
     const [rating, setRating] = useState(0)
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
@@ -34,12 +34,14 @@ const Comment = ({ restaurantId, comments, setComments, setLoad }) => {
             name: name,
             rating: rating,
             content: content
-        })
+        }).then(() => { getComments() })
     }
 
     const submitComment = () => {
         // TODO Part III-3-b: submit a comment and reset input fields
         if (name !== '' && rating > 0 && content !== '') {
+            setLoad(true)
+
             storeComment();
             setName('')
             setRating(0)

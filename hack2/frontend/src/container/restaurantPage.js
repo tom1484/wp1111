@@ -41,6 +41,7 @@ const RestaurantPage = () => {
         }).then(res => {
             // console.log(res.data.contents)
             setComments(res.data.contents)
+            setLoading(false)
         })
     }
     useEffect(() => {
@@ -52,16 +53,24 @@ const RestaurantPage = () => {
 
     useEffect(() => {
         // TODO Part III-3-c: update the comment display immediately after submission
-        // getComments()
+        // if (loading) {
+        //     getComments()
+        // }
     }, [comments])
 
     /* TODO Part III-2-b: calculate the average rating of the restaurant */
     let rating = 0;
+    for (let comment of comments) {
+        rating += comment.rating
+    }
+    if (comments.length > 0) {
+        rating /= comments.length
+    }
 
     return (
         <div className='restaurantPageContainer'>
             {Object.keys(info).length === 0 ? <></> : <Information info={info} rating={rating} />}
-            <Comment restaurantId={id} comments={comments} setComments={setComments} setLoad={setLoading} />
+            <Comment restaurantId={id} comments={comments} setComments={setComments} setLoad={setLoading} getComments={getComments} />
         </div>
     )
 }
