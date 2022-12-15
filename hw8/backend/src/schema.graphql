@@ -1,0 +1,45 @@
+type ChatRoom {
+  name: String!
+  userList: [String!]!
+  messages: [Message!]!
+}
+
+type Message {
+  sender: String!
+  content: String!
+}
+
+type ChatRoomQueryReturn {
+  status: Boolean!
+  chatRoom: ChatRoom!
+}
+
+type Query {
+  chatRoom(chatRoomName: String!, userName: String!): ChatRoomQueryReturn!
+}
+
+input CreateChatRoomInput {
+  chatRoomName: String!
+  userList: [String!]!
+}
+
+input AddMessageInput {
+  chatRoomName: String!
+  sender: String!
+  content: String!
+}
+
+input ClearChatRoomInput {
+  chatRoomName: String!
+}
+
+type Mutation {
+  createChatRoom(inputData: CreateChatRoomInput!): ChatRoom!
+  addMessage(inputData: AddMessageInput!): Boolean!
+  clearMessages(inputData: ClearChatRoomInput!): Boolean!
+}
+
+type Subscription {
+  newMessage(receiver: String!): Message!
+  messagesCleared(receiver: String!): Boolean!
+}
