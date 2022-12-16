@@ -52,6 +52,10 @@
   padding-right: 6px;
 }
 
+.App-message-sender {
+  margin-bottom: 0;
+}
+
 .App-message-left {
   background: #77777740;
   border-radius: 5px;

@@ -7,7 +7,7 @@ import { NEW_MESSAGE_QUERY, MESSAGES_CLEARED_QUERY } from '../graphql/subscripti
 
 
 const useChat = () => {
-    const [userName, setUserName] = useState("Tom")
+    const [userName, setUserName] = useState("")
 
     const [chatRoomLoadingStatus, setChatRoomLoadingStatus] = useState('loading')
     const [chatRoomList, setChatRoomList] = useState([])
@@ -35,32 +35,64 @@ const useChat = () => {
     }, [chatRoomList])
 
     useEffect(() => {
-        console.log(qlNewMessage)
-        // TODO add new message
+        if (qlNewMessage) {
+            const { chatRoomName, message } = qlNewMessage.newMessage
+            let newChatRoomList = []
+            for (let i = 0; i < chatRoomList.length; i++) {
+                let newChatRoom = chatRoomList[i]
+                if (chatRoomList[i].name === chatRoomName) {
+                    newChatRoom.messages = [
+                        ...newChatRoom.messages,
+                        message
+                    ]
+                }
+                newChatRoomList.push(newChatRoom)
+            }
+            setChatRoomList(newChatRoomList)
+        }
     }, [qlNewMessage])
 
     useEffect(() => {
-        // console.log(qlMessagesCleared)
-        // TODO clear messages
+        if (qlMessagesCleared) {
+            const chatRoomName = qlMessagesCleared.messagesCleared
+            let newChatRoomList = []
+            for (let i = 0; i < chatRoomList.length; i++) {
+                let newChatRoom = chatRoomList[i]
+                if (chatRoomList[i].name === chatRoomName) {
+                    newChatRoom.messages = []
+                }
+                newChatRoomList.push(newChatRoom)
+            }
+            setChatRoomList(newChatRoomList)
+        }
     }, [qlMessagesCleared])
 
     const login = (userNameToLogin) => {
         setUserName(userNameToLogin);
     }
 
-    const onOpenChatRoomSuccess = (chatRoom) => {
-        console.log(chatRoom)
+    const onOpenChatRoomSuccess = (chatRoom, successMessage) => {
         setActiveRoomIndex(chatRoomList.length)
-        setChatRoomList((prev) => [...prev, chatRoom])
+        setChatRoomList((prev) => [
+            ...prev, {
+                name: chatRoom.name,
+                userList: chatRoom.userList,
+                messages: chatRoom.messages
+            }
+        ])
 
         setChatRoomLoadingStatus('success')
-        showStatus('success', 'Chat room opened')
+        showStatus('success', successMessage)
     }
 
-    const onOpenChatRoomError = (error) => {
-        console.log(error)
+    const onOpenChatRoomNotFound = (errorMessage) => {
+        setChatRoomLoadingStatus('not found')
+        showStatus('error', errorMessage)
+    }
+
+    const onOpenChatRoomError = (errorMessage) => {
         setChatRoomLoadingStatus('error')
-        showStatus('error', 'Failed to open chat room')
+        showStatus('error', errorMessage)
     }
 
     const createChatRoom = (chatRoomName, userList) => {
@@ -70,31 +102,60 @@ const useChat = () => {
                 userList: userList
             }
         }).then((result) => {
-            const chatRoom = result.data.createChatRoom;
-            onOpenChatRoomSuccess(chatRoom)
-        }).catch((error) => {
-            onOpenChatRoomError(error)
+            const { status, chatRoom } = result.data.createChatRoom;
+            switch (status) {
+                case "success":
+                    onOpenChatRoomSuccess(
+                        chatRoom,
+                        'Chat room opened'
+                    )
+                    break
+                default:
+                    break
+            }
+        }).catch(() => {
+            onOpenChatRoomError('Failed to open chat room')
         })
     }
 
     const openChatRoom = (chatRoomName) => {
+
+        for (let chatRoom of chatRoomList) {
+            if (chatRoom.name === chatRoomName) {
+                onOpenChatRoomError('Chat room is opened')
+                return
+            }
+        }
+
+        setChatRoomLoadingStatus('loading')
+
         qlGetChatRoom({
             variables: {
                 chatRoomName: chatRoomName,
-                userName: userName
+                userName: userName,
             }
         }).then((result) => {
             const { status, chatRoom } = result.data.chatRoom;
-            if (status) {
-                onOpenChatRoomSuccess(chatRoom)
-            } else {
-                setChatRoomLoadingStatus('not found')
+            console.log(status)
+            switch (status) {
+                case "found":
+                    onOpenChatRoomSuccess(
+                        chatRoom,
+                        'Chat room opened'
+                    )
+                    break
+                case "not found":
+                    onOpenChatRoomNotFound('Chat room not found')
+                    break
+                case "not authorized":
+                    onOpenChatRoomError('You are not in the chat room')
+                    break
+                default:
+                    break
             }
-        }).catch((error) => {
-            onOpenChatRoomError(error)
+        }).catch(() => {
+            onOpenChatRoomError('Failed to open chat room')
         })
-
-        setChatRoomLoadingStatus('loading')
     }
 
     const removeChatRoom = (removeKey) => {
@@ -140,7 +201,6 @@ const useChat = () => {
                     chatRoomName: chatRoomList[activeRoomIndex].name,
                 }
             }).then((result) => {
-                // console.log(result)
                 const status = result.data.clearMessages;
                 if (status) {
                     showStatus('success', 'Message cleared')

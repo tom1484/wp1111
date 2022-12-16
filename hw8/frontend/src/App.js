@@ -10,22 +10,6 @@ import { CHATROOM_QUERY } from './graphql/queries';
 const localStorage = window.localStorage;
 
 function App() {
-  // const [sendMessage, { loading, error }] = useMutation(SEND_MESSAGE_QUERY);
-  // const { data } = useSubscription(GET_NEW_MESSAGE_QUERY, {
-  //   variables: { chatBox: '123' },
-  // });
-
-  // const buttonOnClick = () => {
-  //   // setUsername('123');
-  //   sendMessage({ variables: { chatBox: '123', sender: '123', content: '123' } }).then((res) => {
-  //     console.log("sent");
-  //   });
-  // }
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
   const {
     userName, login,
     openChatRoom, createChatRoom,
@@ -39,7 +23,7 @@ function App() {
 
   const [title, setTitle] = useState("Chat Room");
 
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(true);
   const [loginInput, setLoginInput] = useState(localStorage.getItem("user"));
 
   const [addRoomMode, setAddRoomMode] = useState('search');
@@ -81,13 +65,13 @@ function App() {
   }, [userName, loginModalOpen]);
 
   useEffect(() => {
-    // console.log(chatRoomLoadingStatus)
     switch (chatRoomLoadingStatus) {
       case 'loading':
         break
       case 'success':
         setAddRoomModalOpen(false);
         setNewRoomNameInput("");
+        setUserListInput("");
         break
       case 'not found':
         setAddRoomMode('create');
@@ -124,6 +108,13 @@ function App() {
               chatRoom.messages.map(({ sender, content }, index) => {
                 return (
                   <div key={index} className='App-message-container'>
+                    {
+                      sender === userName ? null : (
+                        <p className='App-message-sender'>
+                          {sender}
+                        </p>
+                      )
+                    }
                     <p className={sender === userName ? 'App-message-right' : 'App-message-left'}>
                       {content}
                     </p>
@@ -158,7 +149,7 @@ function App() {
                 localStorage.setItem("user", userName);
               }
             } else {
-              // showStatus("error", "Please enter user name");
+              showStatus("error", "Please enter user name");
             }
           }}
         ></Input.Search>
@@ -201,6 +192,7 @@ function App() {
                   if (newRoomNameInput !== "") {
                     openChatRoom(newRoomNameInput);
                   } else {
+                    showStatus("error", "Please enter room name");
                   }
                   break
                 case 'create':
@@ -210,6 +202,7 @@ function App() {
                       userListInput, userName
                     ]);
                   } else {
+                    showStatus("error", "Please enter target user name");
                   }
                   break
                 default:

@@ -3,8 +3,11 @@ import { gql } from '@apollo/client';
 export const NEW_MESSAGE_QUERY = gql`
 subscription getNewMessage($receiver: String!) {
     newMessage(receiver: $receiver) {
-        sender
-        content
+        chatRoomName
+        message {
+            sender
+            content
+        }
     }
 }
 `;

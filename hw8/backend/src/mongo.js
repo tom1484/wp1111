@@ -17,6 +17,5 @@ export default {
         mongoose.connection.on("error",
             console.error.bind(console, "connection error"));
     },
-    db: mongoose.connection,
 }
 

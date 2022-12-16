@@ -10,8 +10,8 @@ type Message {
 }
 
 type ChatRoomQueryReturn {
-  status: Boolean!
-  chatRoom: ChatRoom!
+  status: String!
+  chatRoom: ChatRoom
 }
 
 type Query {
@@ -21,6 +21,11 @@ type Query {
 input CreateChatRoomInput {
   chatRoomName: String!
   userList: [String!]!
+}
+
+type CreateChatRoomReturn {
+  status: String!
+  chatRoom: ChatRoom
 }
 
 input AddMessageInput {
@@ -34,12 +39,17 @@ input ClearChatRoomInput {
 }
 
 type Mutation {
-  createChatRoom(inputData: CreateChatRoomInput!): ChatRoom!
+  createChatRoom(inputData: CreateChatRoomInput!): CreateChatRoomReturn!
   addMessage(inputData: AddMessageInput!): Boolean!
   clearMessages(inputData: ClearChatRoomInput!): Boolean!
 }
 
+type NewMessageNotification {
+  chatRoomName: String!
+  message: Message!
+}
+
 type Subscription {
-  newMessage(receiver: String!): Message!
-  messagesCleared(receiver: String!): Boolean!
+  newMessage(receiver: String!): NewMessageNotification!
+  messagesCleared(receiver: String!): String!
 }

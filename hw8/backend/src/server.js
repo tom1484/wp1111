@@ -4,7 +4,7 @@ import { WebSocketServer } from 'ws';
 import { createPubSub, createSchema, createYoga } from 'graphql-yoga';
 import { useServer } from 'graphql-ws/lib/use/ws';
 
-import { ChatRoomModel } from './models/ChatRoomModel';
+import ChatRoomModel from './models/ChatRoomModel';
 
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';

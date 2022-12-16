@@ -1,29 +1,64 @@
 const Mutation = {
     async createChatRoom(_, { inputData }, { ChatRoomModel }) {
         const { chatRoomName, userList } = inputData;
-        // TODO create chat room in db
-        return {
-            name: chatRoomName,
-            userList: ["Tom", "Jerry"],
-            messages: [{ sender: "Tom", content: "Hi" }],
+
+        let result = {
+            status: "success",
+            chatRoom: null,
         };
+        await ChatRoomModel.insertMany([{
+            name: chatRoomName,
+            userList: userList,
+            messages: [],
+        }]).then((chatRooms) => {
+            result.chatRoom = chatRooms[0];
+        })
+
+        return result;
     },
     async clearMessages(_, { inputData }, { ChatRoomModel, pubsub }) {
         const { chatRoomName } = inputData;
-        // TODO find chat room in db and clear messages
-        const userList = ["Tom", "Jerry"];
+
+        let userList;
+        await ChatRoomModel.findOneAndUpdate({
+            name: chatRoomName,
+        }, {
+            messages: [],
+        }).then((chatRoom) => {
+            userList = chatRoom.userList;
+        });
+
         for (let user of userList) {
-            pubsub.publish(`messagesCleared`, user, true);
+            pubsub.publish(`messagesCleared`, user, chatRoomName);
         }
+
         return true;
     },
     async addMessage(_, { inputData }, { ChatRoomModel, pubsub }) {
         const { chatRoomName, sender, content } = inputData;
-        // TODO find chat room in db and add message
-        const userList = ["Tom", "Jerry"];
+        const newMessage = {
+            sender: sender,
+            content: content,
+        };
+
+        let userList;
+        await ChatRoomModel.findOneAndUpdate({
+            name: chatRoomName,
+        }, {
+            "$push": {
+                messages: newMessage
+            }
+        }).then((chatRoom) => {
+            if (chatRoom) {
+                userList = chatRoom.userList;
+            }
+        });
+
         for (let user of userList) {
+            console.log(user)
             pubsub.publish(`newMessage`, user, {
-                sender: sender, content: content,
+                chatRoomName: chatRoomName,
+                message: newMessage
             });
         }
         return true;

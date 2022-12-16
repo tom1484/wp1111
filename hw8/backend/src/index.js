@@ -2,8 +2,7 @@ import server from './server';
 import mongo from './mongo';
 
 
-// mongo.connect();
-// const db = mongo.db;
+mongo.connect();
 
 
 const port = process.env.PORT || 4000;

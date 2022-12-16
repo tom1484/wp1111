@@ -1,16 +1,25 @@
 const Query = {
-    chatRoom: async (_, args, { ChatRoomModel }, info) => {
-        const { chatRoomName, userName } = args;
-        // TODO find chat room in db
-        return {
-            status: args.chatRoomName == "123",
-            // status: false,
-            chatRoom: {
-                name: args.chatRoomName,
-                userList: ["Tom", "Jerry"],
-                messages: [{ sender: "Tom", content: "Hi" }],
-            },
-        };
+    async chatRoom(_, { chatRoomName, userName }, { ChatRoomModel }, info) {
+
+        let result = {
+            status: "not found",
+            chatRoom: null,
+        }
+
+        await ChatRoomModel.findOne({
+            name: chatRoomName,
+        }).then((chatRoom) => {
+            if (chatRoom) {
+                if (chatRoom.userList.indexOf(userName) === -1) {
+                    result.status = "not authorized";
+                } else {
+                    result.status = "found";
+                    result.chatRoom = chatRoom;
+                }
+            }
+        })
+
+        return result;
     },
 };
 

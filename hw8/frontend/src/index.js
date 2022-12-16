@@ -38,7 +38,12 @@ const splitLink = split(
 
 const client = new ApolloClient({
   link: splitLink,
-  cache: new InMemoryCache().restore({}),
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      nextFetchPolicy: 'no-cache',
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

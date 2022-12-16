@@ -30,11 +30,14 @@ mutation createChatRoom($chatRoomName: String!, $userList: [String!]!) {
             userList: $userList
         }
     ) {
-        name
-        userList
-        messages {
-            sender
-            content
+        status
+        chatRoom {
+            name
+            userList
+            messages {
+                sender
+                content
+            }
         }
     }
 }
