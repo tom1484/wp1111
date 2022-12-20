@@ -9,7 +9,7 @@ import Category from './Category';
 function Analytics() {
   // TODO 2.2 Use the useQuery hook to get items from backend
   const { loading, error, data } = useQuery(GET_ITEMS_QUERY);
-  const items = data ? data.items : undefined;
+  const items = data ? data.items : [];
   // TODO 2.2 End
 
   return (
