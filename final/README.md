@@ -1,5 +1,21 @@
 # WP1111 Final Project - Money Manager
 
+## Repositories
+
+> This repo has the clone of the following repos
+
+| Component | URL |
+| --- | --- |
+| Backend server | https://github.com/tom1484/money-manager-server |
+| Frontend | https://github.com/tom1484/money-manager |
+
+## Deployment Information
+
+| Component | Deployment Method | URL |
+| --- | --- | --- |
+| Backend server | Deploy on Railway | https://money-manager-server-production.up.railway.app |
+| Frontend | Release APK on GitHub | https://github.com/tom1484/money-manager/releases/tag/rev.1 |
+
 ## How to Use This Repository
 
 ### Backend Server
