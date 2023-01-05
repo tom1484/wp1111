@@ -1,0 +1,22 @@
+type AppUser {
+  name: String
+  email: String
+}
+
+type UserSignInResponse {
+  status: String
+  token: String
+  appUser: AppUser
+}
+
+input UserSignUpInput {
+  name: String
+  password: String
+  email: String
+}
+
+type UserSignUpResponse {
+  status: String
+  token: String
+  appUser: AppUser
+}

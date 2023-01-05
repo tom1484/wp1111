@@ -1,0 +1,14 @@
+type Query {
+  loadTransactionTable(
+    token: String!
+    startDate: String
+    endDate: String
+    filters: [String]
+    filterKeys: [[String]]
+    limit: Int
+  ): LoadTransactionTableResponse
+  loadTransactionsByIDs(
+    token: String!
+    transactionIDs: [String]
+  ): LoadTransactionsByIDsResponse
+}
